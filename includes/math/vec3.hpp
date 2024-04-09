@@ -50,8 +50,6 @@ class vec3
 		bool	operator==(const vec3 &rhs) const;
 		bool	operator!=(const vec3 &rhs) const;
 		float&	operator[](const int index);
-		
-
 };
 
 std::ostream&	operator<<(std::ostream &o, const vec3 &rhs);

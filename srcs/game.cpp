@@ -1,5 +1,5 @@
 #include "../includes/header.hpp"
-#include "../includes/classes/game.hpp"
+#include "../includes/game.hpp"
 
 using namespace scop;
 

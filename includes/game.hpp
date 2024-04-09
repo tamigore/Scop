@@ -1,9 +1,6 @@
 #ifndef GAME_HPP
 # define GAME_HPP
 
-# include "../header.hpp"
-# include "../struct.hpp"
-
 namespace scop
 {
 
