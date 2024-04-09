@@ -20,5 +20,7 @@
 # include "struct.hpp"
 # include "math/vec3.hpp"
 # include "math/mat4.hpp"
+# include "classes/game.hpp"
+# include "classes/mesh.hpp"
 
 #endif

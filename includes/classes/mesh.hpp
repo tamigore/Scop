@@ -1,13 +1,11 @@
 #ifndef MESH_HPP
 # define MESH_HPP
 
-# include "../base_header.hpp"
-
+# include "../header.hpp"
 
 #ifndef VEC3_HPP
-#include "vec3.hpp"
+# include "../math/vec3.hpp"
 #endif
-
 
 namespace scop
 {
@@ -15,11 +13,10 @@ namespace scop
 class mesh
 {
 public:
-
-	std::vector<scop::vec3> base_vertexes;
+	std::vector<math::vec3> base_vertexes;
 	std::vector<std::vector<unsigned int>> base_faces;
 
-	std::vector<scop::vec3> vertexes;
+	std::vector<math::vec3> vertexes;
 	std::vector<t_triangle> triangles;
 
 	std::vector<std::vector<t_triangle>> base_triangles;
@@ -42,14 +39,14 @@ public:
 
 
 	void 					EcoDupVertex();
-	t_triangle 				getSemioptiVerticesTriangle(t_triangle &triangle, std::size_t pos,  std::vector<scop::vec3> *new_vertexes,
+	t_triangle 				getSemioptiVerticesTriangle(t_triangle &triangle, std::size_t pos,  std::vector<math::vec3> *new_vertexes,
 												std::vector<t_triangle> *base_face_triangles, std::vector<t_triangle> *new_face_triangles);
 	std::vector<t_triangle> createTriangleFromFace(std::vector<unsigned int> face);
 	void 					addInfoToVertexesEco();
 
 
 	void 	center_around_orgin();
-	void	min_max_bounds(vec3& min_bound, vec3& max_bound);
+	void	min_max_bounds(math::vec3& min_bound, math::vec3& max_bound);
 
 	mesh&	operator=(const mesh &copy);
 };
