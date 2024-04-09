@@ -30,6 +30,7 @@ public:
 	game(int width, int height);
 
 	int 			init(int ac, char **av);
+	void 			loop();
 };
 }
 

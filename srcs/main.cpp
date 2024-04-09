@@ -20,23 +20,8 @@ int main(int ac, char** av)
 		std::cout << "No argument" << std::endl;
 		return 1;
 	}
-    (void)av;
-  	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	GLFWwindow *window = glfwCreateWindow(1000, 1000, "SCOP LE PROJET COOL", NULL, NULL);
-    if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return 2;
-	}
-    glfwMakeContextCurrent(window);
-    while(1)
-    {
-        std::cout << "Yo" << std::endl;
-    }
+    game games(1000, 1000);
+    games.init(ac, av);
+    games.loop();
 	return 0;
 }
