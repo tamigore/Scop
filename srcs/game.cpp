@@ -1,5 +1,5 @@
 #include "../includes/header.hpp"
-#include "../includes/classes/game.hpp"
+#include "../includes/game.hpp"
 
 using namespace scop;
 
@@ -65,6 +65,15 @@ int game::init(int ac, char **av)
 	std::cout << "Init End" << std::endl;
 
     return (1);
+}
+
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+		std::cout << "GLFW_KEY_ESCAPE" << std::endl;
+        glfwSetWindowShouldClose(window, true);
+    }
 }
 
 void game::loop()

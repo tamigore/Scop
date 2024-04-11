@@ -1,5 +1,5 @@
-#ifndef BASE_HEADER_HPP
-# define BASE_HEADER_HPP
+#ifndef __HEADER_HPP__
+# define __HEADER_HPP__
 
 # include <iostream>
 # include <string.h>
@@ -17,10 +17,8 @@
 # include <GL/glut.h>
 # include <GLFW/glfw3.h>
 
-# include "struct.hpp"
-# include "math/vec3.hpp"
-# include "math/mat4.hpp"
-# include "classes/game.hpp"
-# include "classes/mesh.hpp"
+# include "math/math.hpp"
+# include "obj_loader/obj_loader.hpp"
+# include "game.hpp"
 
 #endif

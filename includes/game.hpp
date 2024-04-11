@@ -1,9 +1,6 @@
 #ifndef GAME_HPP
 # define GAME_HPP
 
-# include "../header.hpp"
-# include "../struct.hpp"
-
 namespace scop
 {
 
@@ -21,6 +18,7 @@ class game
 		int initShadder();
 
 	public:
+		GLFWwindow *window;
 		~game();
 		game(/* args */);
 		game(int width, int height);
