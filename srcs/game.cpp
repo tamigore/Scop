@@ -20,11 +20,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-int game::init(int ac, char **av, obj::mesh mesh)
+int game::init(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-
+    if (ac != 2)
+		return 2;
+	this->Mesh.load_obj(av[1]);
     glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

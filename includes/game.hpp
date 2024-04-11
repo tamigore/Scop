@@ -24,7 +24,7 @@ class game
 		game(/* args */);
 		game(int width, int height);
 
-		int		init(int ac, char **av, obj::mesh mesh);
+		int		init(int ac, char **av);
 		void	loop();
 		void 	setMesh(obj::mesh);
 		GLFWwindow *getWindow();

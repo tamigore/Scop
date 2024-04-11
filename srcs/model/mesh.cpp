@@ -84,14 +84,12 @@ bool	mesh::add_face(std::string pram)
 		}
 		else if (tokens[i].find("//") != std::string::npos)
 		{
-			split(tokens[i], face_tokens, "//");
 			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
 			newface.m_normal_index.push_back(0);
 			newface.m_texture_index.push_back(std::stoul(face_tokens[1]));
 		}
 		else
 		{
-			std::cout << std::stoul(tokens[i]) << std::endl;
 			newface.m_vertice_index.push_back(std::stoul(tokens[i]));
 			newface.m_normal_index.push_back(0);
 			newface.m_texture_index.push_back(0);
@@ -99,6 +97,44 @@ bool	mesh::add_face(std::string pram)
 	}
 	this->m_faces.push_back(newface);
 	return true;
+}
+
+// std::vector<face> mesh::poli2tris()
+// {
+// 	std::vector<face> new_face;
+// 	for (std::vector<std::vector<unsigned int>>::iterator it = this->base_faces.begin(); it != this->base_faces.end(); ++it)
+// 	{
+// 		if (it->size() < 3)
+// 		{
+// 			std::cout << "Error : face with less than 3 vertexes" << std::endl;
+// 			exit(1);
+// 		}
+
+// 		std::size_t i = 2;
+// 		while (i < it->size())
+// 		{
+// 			t_triangle triangle;
+// 			triangle.v[0] = it->at(0) - 1;
+// 			triangle.v[1] = it->at(i - 1) - 1;
+// 			triangle.v[2] = it->at(i) - 1;
+// 			new_triangles.push_back(triangle);
+// 			i++;
+// 		}
+// 	}
+// 	return (new_triangles);
+// }
+
+std::vector<math::vec3> mesh::faceVertexToTab()
+{
+	std::vector<math::vec3> triangles;
+	for (unsigned int i = 0; i < this->m_faces.size(); i++)
+	{
+		for (unsigned int j = 0; j < this->m_faces[i].m_vertice_index.size(); j++)
+		{
+			triangles.push_back(this->m_faces[i].m_vertice_index[j]);
+		}
+	}
+	return (triangles);
 }
 
 bool	mesh::load_obj(const char* path)
