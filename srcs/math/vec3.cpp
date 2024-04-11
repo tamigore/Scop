@@ -9,7 +9,12 @@ vec3::vec3()
 	this->z = 0;
 }
 
-vec3::~vec3() {}
+vec3::vec3(const vec3 &src)
+{
+	this->x = src.x;
+	this->y = src.y;
+	this->z = src.z;
+}
 
 vec3::vec3(const float &src)
 {
@@ -27,40 +32,32 @@ vec3::vec3(const float &x, const float &y, const float &z)
 
 vec3::vec3(const float* src)
 {
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
 	if (!src)
-	{
-		this->x = 0;
-		this->y = 0;
-		this->z = 0;
 		return ;
+	try
+	{
+		this->x = src[0];
+		this->y = src[1];
+		this->z = src[2];
 	}
-	this->x = src[0];
-	this->y = src[1];
-	this->z = src[2];
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
-float*	vec3::getFloatTab() const
+vec3::~vec3() {}
+
+float*	vec3::getTab() const
 {
-	float* tab = new float[3];
+	float* tab = new float(3);
 	tab[0] = this->x;
 	tab[1] = this->y;
 	tab[2] = this->z;
 	return (tab);
-}
-
-float	vec3::getx() const
-{
-	return (this->x);
-}
-
-float	vec3::gety() const
-{
-	return (this->y);
-}
-
-float	vec3::getz() const
-{
-	return (this->z);
 }
 
 vec3&	vec3::operator=(const vec3 &rhs) 
@@ -219,33 +216,67 @@ float&	vec3::operator[](const int index)
 		throw std::out_of_range("vec3 index out of range");
 }
 
+vec3	vec3::normalize()
+{
+	float mag = vec3::magnitude(*this);
+	return vec3(this->x / mag, this->y / mag, this->z / mag);
+}
+
+vec3	vec3::cross(const vec3 a, const vec3 b)
+{
+	return vec3(a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x);
+}
+
+float	vec3::magnitude(const vec3 vec)
+{
+	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2) + powf(vec.z, 2)));
+}
+
+float	vec3::dot(const vec3 a, const vec3 b)
+{
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+float	vec3::angle(const vec3 a, const vec3 b)
+{
+	float angle = dot(a, b);
+	angle /= (magnitude(a) * magnitude(b));
+	return angle = acosf(angle);
+}
+
+vec3	vec3::projection(const vec3 a, const vec3 b)
+{
+	vec3 bn = b / magnitude(b);
+	return bn * dot(a, bn);
+}
+
 namespace math
 {
 	std::ostream&	operator<<(std::ostream &out, const vec3 &rhs)
 	{
-		float* tab = rhs.getFloatTab();
-		out << tab[0]<< " " << tab[1] << " " << tab[2];
-		delete[] tab;
+		out << "vec3(" << rhs.x << ", " << rhs.y << ", " << rhs.z << ")";
 		return (out);
 	}
 
 	vec3			operator*(const float lhs, const vec3 &rhs)
 	{
-		return (vec3(rhs.getx() * lhs, rhs.gety() * lhs, rhs.getz() * lhs));
+		return (vec3(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs));
 	}
 	
 	vec3			operator/(const float lhs, const vec3 &rhs)
 	{
-		return (vec3(rhs.getx() / lhs, rhs.gety() / lhs, rhs.getz() / lhs));
+		return (vec3(rhs.x / lhs, rhs.y / lhs, rhs.z / lhs));
 	}
 
 	vec3			operator+(const float lhs, const vec3 &rhs)
 	{
-		return (vec3(rhs.getx() + lhs, rhs.gety() + lhs, rhs.getz() + lhs));
+		return (vec3(rhs.x + lhs, rhs.y + lhs, rhs.z + lhs));
 	}
 
 	vec3			operator-(const float lhs, const vec3 &rhs)
 	{
-		return (vec3(rhs.getx() - lhs, rhs.gety() - lhs, rhs.getz() - lhs));
+		return (vec3(rhs.x - lhs, rhs.y - lhs, rhs.z - lhs));
 	}
 }

@@ -24,12 +24,22 @@ int game::init(int ac, char **av)
     return (1);
 }
 
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+		std::cout << "GLFW_KEY_ESCAPE" << std::endl;
+        glfwSetWindowShouldClose(window, true);
+    }
+}
+
 void game::loop()
 {
-    while (1)
-    {
-        
-    }
+	while (!glfwWindowShouldClose(this->window))
+	{
+		glfwPollEvents();
+		processInput(this->window);
+	}
 }
 
 game::game(int width, int height): width(width), height(height)

@@ -2,30 +2,27 @@
 # define __VEC3_HPP__
 
 # include <iostream>
+# include <math.h>
 
 namespace math
 {
 
 class vec3
 {
-	private :
+	public :
 		float x;
 		float y;
 		float z;
 
-	public :
 		vec3();
-		~vec3();
+		vec3(const vec3 &src);
 		vec3(const float &src);
 		vec3(const float &x, const float &y, const float &z);
 		vec3(const float* src);
+		~vec3();
 
-		float*	getFloatTab() const;
-		float	getx() const;
-		float	gety() const;
-		float	getz() const;
+		float*	getTab() const;
 
-		
 		vec3&	operator=(const vec3 &rhs);
 		vec3&	operator=(const float &rhs);
 		vec3&	operator=(const float* rhs);
@@ -50,6 +47,14 @@ class vec3
 		bool	operator==(const vec3 &rhs) const;
 		bool	operator!=(const vec3 &rhs) const;
 		float&	operator[](const int index);
+
+
+		vec3	normalize();
+		vec3	cross(const vec3 a, const vec3 b);
+		float	magnitude(const vec3 vec);
+		float	dot(const vec3 a, const vec3 b);
+		float	angle(const vec3 a, const vec3 b);
+		vec3	projection(const vec3 a, const vec3 b);
 };
 
 std::ostream&	operator<<(std::ostream &o, const vec3 &rhs);

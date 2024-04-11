@@ -5,28 +5,30 @@ OPENGL = -lglut -lGLU -lGL -lglfw
 
 SRCS =	main.cpp	\
 		game.cpp	\
-		glad.c
-		
+		utils.cpp
 
-CLASS =
+MATH =	mat4.cpp	\
+		vec3.cpp	\
+		vec2.cpp
 
+MODEL =	mesh.cpp
 
+srcs =	$(addprefix srcs/, $(SRCS))			\
+		$(addprefix srcs/math/, $(MATH))	\
+		$(addprefix srcs/model/, $(MODEL))
 
-srcs = $(addprefix srcs/, $(SRCS)) \
-			$(addprefix srcs/classes/, $(CLASS))
+obj =	$(srcs:.cpp=.o)
 
-all: COMP
+all: comp_obj
 
-COMP: $(srcs)
+comp_obj: $(srcs)
 	$(CC) $(CFLAGS) $(srcs) $(OPENGL) -o $(NAME)
 
 clean:
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 fclean: clean
-	rm -rf srcs/classes/*.o
-	rm -rf srcs/*.o
-
+	@rm -f $(obj)
 
 re: fclean all
 

@@ -8,7 +8,11 @@ vec2::vec2()
 	this->y = 0;
 }
 
-vec2::~vec2() {}
+vec2::vec2(const vec2 &src)
+{
+	this->x = src.x;
+	this->y = src.y;
+}
 
 vec2::vec2(const float &src)
 {
@@ -34,22 +38,14 @@ vec2::vec2(const float* src)
 	this->y = src[1];
 }
 
+vec2::~vec2() {}
+
 float*	vec2::getFloatTab() const
 {
-	float* tab = new float[3];
+	float* tab = new float(2);
 	tab[0] = this->x;
 	tab[1] = this->y;
 	return (tab);
-}
-
-float	vec2::getx() const
-{
-	return (this->x);
-}
-
-float	vec2::gety() const
-{
-	return (this->y);
 }
 
 vec2&	vec2::operator=(const vec2 &rhs) 
@@ -194,33 +190,65 @@ float&	vec2::operator[](const int index)
 		throw std::out_of_range("vec2 index out of range");
 }
 
+vec2	vec2::normalize()
+{
+	float mag = vec2::magnitude(*this);
+	return vec2(this->x / mag, this->y / mag);
+}
+
+float	vec2::cross(const vec2 a, const vec2 b)
+{
+	return (a.x * b.y - a.y * b.x);
+}
+
+float	vec2::magnitude(const vec2 vec)
+{
+	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2)));
+}
+
+float	vec2::dot(const vec2 a, const vec2 b)
+{
+	return (a.x * b.x) + (a.y * b.y);
+}
+
+float	vec2::angle(const vec2 a, const vec2 b)
+{
+	float angle = dot(a, b);
+	angle /= (magnitude(a) * magnitude(b));
+	return angle = acosf(angle);
+}
+
+vec2	vec2::projection(const vec2 a, const vec2 b)
+{
+	vec2 bn = b / magnitude(b);
+	return bn * dot(a, bn);
+}
+
 namespace math
 {
 	std::ostream&	operator<<(std::ostream &out, const vec2 &rhs)
 	{
-		float* tab = rhs.getFloatTab();
-		out << tab[0]<< " " << tab[1] << " " << tab[2];
-		delete[] tab;
+		out << "vec2(" << rhs.x << ", " << rhs.y << ")";
 		return (out);
 	}
 
 	vec2			operator*(const float lhs, const vec2 &rhs)
 	{
-		return (vec2(rhs.getx() * lhs, rhs.gety() * lhs));
+		return (vec2(rhs.x * lhs, rhs.y * lhs));
 	}
 	
 	vec2			operator/(const float lhs, const vec2 &rhs)
 	{
-		return (vec2(rhs.getx() / lhs, rhs.gety() / lhs));
+		return (vec2(rhs.x / lhs, rhs.y / lhs));
 	}
 
 	vec2			operator+(const float lhs, const vec2 &rhs)
 	{
-		return (vec2(rhs.getx() + lhs, rhs.gety() + lhs));
+		return (vec2(rhs.x + lhs, rhs.y + lhs));
 	}
 
 	vec2			operator-(const float lhs, const vec2 &rhs)
 	{
-		return (vec2(rhs.getx() - lhs, rhs.gety() - lhs));
+		return (vec2(rhs.x - lhs, rhs.y - lhs));
 	}
 }

@@ -18,6 +18,7 @@
 # include <GLFW/glfw3.h>
 
 # include "math/math.hpp"
+# include "obj_loader/obj_loader.hpp"
 # include "game.hpp"
 
 #endif
