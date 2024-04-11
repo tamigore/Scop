@@ -22,9 +22,6 @@ int main(int ac, char** av)
 	}
 	
 	obj::mesh mesh;
-	mesh.load_obj(av[1]);
-	std::cout << "Mesh loaded" << std::endl;
-	std::cout << mesh << std::endl;
 	scop::game game(1000, 1000);
     game.init(ac, av);
 	game.loop();

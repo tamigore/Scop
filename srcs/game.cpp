@@ -105,7 +105,7 @@ unsigned int indices[3] = {0, 1, 2};
 
 int game::initBuffers()
 {
-	
+	std::vector<math::vec3>triangles = Mesh.faceVertexToTab();
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     // glGenBuffers(1, &EBO);
@@ -118,7 +118,7 @@ int game::initBuffers()
 	std::cout << Mesh.m_faces.size() << std::endl;
 	
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, Mesh.m_faces.size() * sizeof(math::vec3), &Mesh.m_faces[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangles.size() * sizeof(math::vec3), &triangles[0], GL_STATIC_DRAW);
     // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
