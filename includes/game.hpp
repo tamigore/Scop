@@ -1,5 +1,5 @@
 #ifndef GAME_HPP
-#include "obj_loader/mesh.hpp"
+#include "model/mesh.hpp"
 # define GAME_HPP
 
 namespace scop

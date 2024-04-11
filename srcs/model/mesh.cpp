@@ -1,4 +1,4 @@
-#include "../../includes/obj_loader/mesh.hpp"
+#include "../../includes/model/mesh.hpp"
 
 using namespace obj;
 
