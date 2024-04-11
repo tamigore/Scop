@@ -10,6 +10,8 @@ bool color = true;
 bool rotate_p = false;
 bool color_p = false;
 
+
+
 int main(int ac, char** av)
 {
 	if (ac != 2)

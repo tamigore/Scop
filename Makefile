@@ -4,8 +4,8 @@ CFLAGS =  -std=c++11
 OPENGL = -lglut -lGLU -lGL -lglfw  
 
 SRCS =	main.cpp	\
-		game.cpp	\
-		glad.c
+		glad.c \
+		game.cpp
 		
 
 CLASS =

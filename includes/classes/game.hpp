@@ -16,6 +16,9 @@ class game
 		GLFWwindow *window;
 		unsigned int shaderProgram;
 		unsigned int texture;
+		unsigned int VBO, VAO, EBO;
+		int initBuffers();
+		int initShadder();
 
 	public:
 		~game();
@@ -24,6 +27,7 @@ class game
 
 		int		init(int ac, char **av);
 		void	loop();
+		GLFWwindow *getWindow();
 };
 
 }
