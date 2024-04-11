@@ -32,6 +32,8 @@ class mesh
 		bool	load_obj(const char* path);
 };
 
+std::ostream&	operator<<(std::ostream &o, const mesh &rhs);
+
 }
 
 #endif

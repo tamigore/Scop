@@ -5,7 +5,7 @@ OPENGL = -lglut -lGLU -lGL -lglfw
 
 SRCS =	main.cpp	\
 		game.cpp	\
-		glad.c	\
+		glad.c		\
 		utils.cpp
 
 MATH =	mat4.cpp	\
