@@ -1,4 +1,5 @@
 #ifndef GAME_HPP
+#include "obj_loader/mesh.hpp"
 # define GAME_HPP
 
 namespace scop
@@ -16,15 +17,16 @@ class game
 		unsigned int VBO, VAO, EBO;
 		int initBuffers();
 		int initShadder();
+		obj::mesh Mesh;
 
 	public:
-		GLFWwindow *window;
 		~game();
 		game(/* args */);
 		game(int width, int height);
 
-		int		init(int ac, char **av);
+		int		init(int ac, char **av, obj::mesh mesh);
 		void	loop();
+		void 	setMesh(obj::mesh);
 		GLFWwindow *getWindow();
 };
 

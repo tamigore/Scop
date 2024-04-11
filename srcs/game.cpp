@@ -3,17 +3,6 @@
 
 using namespace scop;
 
-void processInput(GLFWwindow *window)
-{
-
-    if (glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		std::cout << "ESCAPE" <<std::endl;
-        glfwSetWindowShouldClose(window, true);
-	}
-
-
-}
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	(void)scancode;
@@ -31,7 +20,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-int game::init(int ac, char **av)
+int game::init(int ac, char **av, obj::mesh mesh)
 {
     (void)ac;
     (void)av;
@@ -124,12 +113,12 @@ int game::initBuffers()
     glBindVertexArray(VAO);
 	
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(point), point, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(math::vec3), &Mesh.m_vertices[0], GL_STATIC_DRAW);
 	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);

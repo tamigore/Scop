@@ -60,7 +60,7 @@ int main(int ac, char** av)
 	}
 	
 	scop::game game(1000, 1000);
-    game.init(ac, av);
+    game.init(ac, av, mesh);
 	game.loop();
 	return 0;
 }
