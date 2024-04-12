@@ -74,7 +74,12 @@ void game::loop()
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES ,0, 3);
+		std::cout << triangles[0] << std::endl;
+		std::cout << "DRAWING"<< std::endl;
+
+		glDrawElements(GL_TRIANGLES ,3, GL_UNSIGNED_INT, 0);
+		std::cout << "DRAWING"<< std::endl;
+
 		glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -105,7 +110,7 @@ unsigned int indices[3] = {0, 1, 2};
 
 int game::initBuffers()
 {
-	std::vector<math::vec3>triangles = Mesh.faceVertexToTab();
+	triangles = Mesh.faceVertexToTab();
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     // glGenBuffers(1, &EBO);
@@ -116,13 +121,22 @@ int game::initBuffers()
     glBufferData(GL_ARRAY_BUFFER, Mesh.m_vertices.size() * sizeof(math::vec3), &Mesh.m_vertices[0], GL_STATIC_DRAW);
 	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	std::cout << Mesh.m_faces.size() << std::endl;
-	
+	for (unsigned int i = 0; i < triangles.size(); i++)
+	{
+		std::cout << triangles[i] << " ";
+		if ((i%3 == 2))
+			std::cout << std::endl;
+
+	}
+		std::cout << std::endl;
+		std::cout << "triangles.size() " << triangles.size() << std::endl;
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangles.size() * sizeof(math::vec3), &triangles[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangles.size() * sizeof(unsigned int), &triangles[0], GL_STATIC_DRAW);
     // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	
 	// color attribute

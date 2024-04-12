@@ -124,16 +124,24 @@ bool	mesh::add_face(std::string pram)
 // 	return (new_triangles);
 // }
 
-std::vector<math::vec3> mesh::faceVertexToTab()
+std::vector<unsigned int> mesh::faceVertexToTab()
 {
-	std::vector<math::vec3> triangles;
+	std::vector<unsigned int> triangles;
 	for (unsigned int i = 0; i < this->m_faces.size(); i++)
 	{
-		for (unsigned int j = 0; j < this->m_faces[i].m_vertice_index.size(); j++)
+		std::cout << "faces" << std::endl;
+		std::cout << this->m_faces[i].m_vertice_index[0]<< std::endl;
+		std::cout << this->m_faces[i].m_vertice_index[1]<< std::endl;
+		for (unsigned int j = 2; j < this->m_faces[i].m_vertice_index.size(); j++)
 		{
-			triangles.push_back(this->m_faces[i].m_vertice_index[j]);
+			triangles.push_back(this->m_faces[i].m_vertice_index[0] - 1);
+			triangles.push_back(this->m_faces[i].m_vertice_index[j - 1] - 1);
+			triangles.push_back(this->m_faces[i].m_vertice_index[j] - 1);
+			std::cout << this->m_faces[i].m_vertice_index[j]<< std::endl;
 		}
 	}
+		std::cout << "faces end" << std::endl;
+
 	return (triangles);
 }
 

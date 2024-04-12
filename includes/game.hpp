@@ -18,7 +18,7 @@ class game
 		int initBuffers();
 		int initShadder();
 		obj::mesh Mesh;
-
+		std::vector<unsigned int>triangles;
 	public:
 		~game();
 		game(/* args */);
