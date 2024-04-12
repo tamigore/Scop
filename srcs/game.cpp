@@ -22,10 +22,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 int game::init(int ac, char **av)
 {
+	std::cout << "Init Start" << std::endl;
     if (ac != 2)
-		return 2;
-	this->Mesh.load_obj(av[1]);
-    glfwInit();
+		return -1;
+	if (!this->Mesh.load_obj(av[1]))
+		return -1;
+	std::cout << "Mesh loaded" << std::endl;
+	std::cout << Mesh << std::endl;
+    if (!glfwInit())
+		return -1;
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -35,7 +40,7 @@ int game::init(int ac, char **av)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return 2;
+		return -1;
 	}
     glfwMakeContextCurrent(this->window);
 	glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
@@ -44,7 +49,7 @@ int game::init(int ac, char **av)
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		return 3;
+		return -1;
 	}
 	std::cout << "after Glad" << std::endl;
 
@@ -74,11 +79,11 @@ void game::loop()
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES ,0, 3);
+		glDrawArrays(GL_TRIANGLES ,0, this->Mesh.m_vertices.size());
 		glfwSwapBuffers(window);
         glfwPollEvents();
     }
-	    glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
     glfwTerminate();
@@ -105,7 +110,7 @@ unsigned int indices[3] = {0, 1, 2};
 
 int game::initBuffers()
 {
-	std::vector<math::vec3>triangles = Mesh.faceVertexToTab();
+	std::vector<math::vec3>triangles = Mesh.faceVertex();
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     // glGenBuffers(1, &EBO);
@@ -122,7 +127,7 @@ int game::initBuffers()
     // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	
 	// color attribute

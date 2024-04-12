@@ -124,26 +124,56 @@ bool	mesh::add_face(std::string pram)
 // 	return (new_triangles);
 // }
 
-std::vector<math::vec3> mesh::faceVertexToTab()
+std::vector<math::vec3>	mesh::faceVertex()
 {
-	std::vector<math::vec3> triangles;
+	std::vector<math::vec3> vertex;
 	for (unsigned int i = 0; i < this->m_faces.size(); i++)
 	{
 		for (unsigned int j = 0; j < this->m_faces[i].m_vertice_index.size(); j++)
 		{
-			triangles.push_back(this->m_faces[i].m_vertice_index[j]);
+			vertex.push_back(this->m_faces[i].m_vertice_index[j]);
 		}
 	}
-	return (triangles);
+	return (vertex);
+}
+
+std::vector<math::vec3>	mesh::faceNormal()
+{
+	std::vector<math::vec3> normal;
+	for (unsigned int i = 0; i < this->m_faces.size(); i++)
+	{
+		for (unsigned int j = 0; j < this->m_faces[i].m_normal_index.size(); j++)
+		{
+			normal.push_back(this->m_faces[i].m_normal_index[j]);
+		}
+	}
+	return (normal);
+}
+
+std::vector<math::vec3>	mesh::faceTexture()
+{
+	std::vector<math::vec3> texture;
+	for (unsigned int i = 0; i < this->m_faces.size(); i++)
+	{
+		for (unsigned int j = 0; j < this->m_faces[i].m_texture_index.size(); j++)
+		{
+			texture.push_back(this->m_faces[i].m_texture_index[j]);
+		}
+	}
+	return (texture);
 }
 
 bool	mesh::load_obj(const char* path)
 {
 	std::string str_path = path;
 	if (str_path.empty() || str_path.size() < 4 || str_path.substr(str_path.size() - 4, 4) != ".obj")
+	{
+		std::cerr << "Error: Invalide path " << str_path << std::endl;
 		return false;
+	}
 	std::ifstream file(str_path);
-	if (!file.is_open()) {
+	if (!file.is_open())
+	{
 		std::cerr << "Error: Could not open file " << str_path << std::endl;
 		return false;
 	}

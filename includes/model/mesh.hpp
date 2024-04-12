@@ -30,7 +30,9 @@ class mesh
 		bool	add_vertex_normal(std::string curline);
 		bool	add_face(std::string curline);
 		bool	load_obj(const char* path);
-		std::vector<math::vec3>	faceVertexToTab();
+		std::vector<math::vec3>	faceVertex();
+		std::vector<math::vec3>	faceNormal();
+		std::vector<math::vec3>	faceTexture();
 };
 
 std::ostream&	operator<<(std::ostream &o, const mesh &rhs);
