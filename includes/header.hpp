@@ -18,8 +18,10 @@
 # include <GLFW/glfw3.h>
 
 # include "math/math.hpp"
-# include "obj_loader/mesh.hpp"
-# include "obj_loader/obj_loader.hpp"
+# include "objects/mesh.hpp"
 # include "game.hpp"
+
+# include "stb_image.h"
+# define STB_IMAGE_IMPLEMENTATION
 
 #endif

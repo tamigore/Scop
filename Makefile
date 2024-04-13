@@ -1,24 +1,32 @@
 NAME = scop
 CC = g++ -Wall -Werror -Wextra
-CFLAGS =  -std=c++11
-OPENGL = -lglut -lGLU -lGL -lglfw  
+CFLAGS =  -std=c++17
+OPENGL = -lglut -lGLU -lGL -lglfw -lX11
 
-SRCS =	main.cpp	\
-		game.cpp	\
-		glad.c		\
-		utils.cpp
+CPPSRCS =	main.cpp
+CSRCS =	glad.c
+
+# game.cpp	\
+utils.cpp
 
 MATH =	mat4.cpp	\
 		vec3.cpp	\
 		vec2.cpp
 
-MODEL =	mesh.cpp
+OBJECTS =	shader.cpp
 
-srcs =	$(addprefix srcs/, $(SRCS))			\
-		$(addprefix srcs/math/, $(MATH))	\
-		$(addprefix srcs/model/, $(MODEL))
+csrcs =	$(addprefix srcs/, $(CSRCS))
 
-obj =	$(srcs:.cpp=.o)
+cppsrcs =	$(addprefix srcs/, $(CPPSRCS))			\
+			$(addprefix srcs/math/, $(MATH))	\
+			$(addprefix srcs/objects/, $(OBJECTS))
+
+
+srcs = $(csrcs)
+srcs += $(cppsrcs)
+
+objs =	$(csrcs:.c=.o)
+objs += $(cppsrcs:.cpp=.o)
 
 all: comp_obj
 
@@ -29,7 +37,7 @@ clean:
 	@rm -rf $(NAME)
 
 fclean: clean
-	@rm -f $(obj)
+	@rm -f $(objs)
 
 re: fclean all
 
