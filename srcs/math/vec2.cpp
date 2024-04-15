@@ -40,7 +40,7 @@ vec2::vec2(const float* src)
 
 vec2::~vec2() {}
 
-float*	vec2::getFloatTab() const
+float*	vec2::getTab() const
 {
 	float* tab = new float(2);
 	tab[0] = this->x;
@@ -115,7 +115,7 @@ vec2	vec2::operator/(const float rhs) const
 	return (vec2(this->x / rhs, this->y / rhs));
 }
 
-vec2&	vec2::operator+=(const vec2 &rhs)
+vec2 &vec2::operator+=(const vec2 &rhs)
 {
 	this->x += rhs.x;
 	this->y += rhs.y;
@@ -190,38 +190,41 @@ float&	vec2::operator[](const int index)
 		throw std::out_of_range("vec2 index out of range");
 }
 
-vec2	vec2::normalize()
+float	vec2::magnitude()
 {
-	float mag = vec2::magnitude(*this);
-	return vec2(this->x / mag, this->y / mag);
+	return (sqrtf(powf(this->x, 2) + powf(this->y, 2)));
 }
 
-float	vec2::cross(const vec2 a, const vec2 b)
+void	vec2::normalize()
 {
-	return (a.x * b.y - a.y * b.x);
+	float mag = this->magnitude();
+	this->x = this->x / mag;
+	this->y = this->y / mag;
 }
 
-float	vec2::magnitude(const vec2 vec)
+float	vec2::cross(const vec2 vec)
 {
-	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2)));
+	return (this->x * vec.y - this->y * vec.x);
 }
 
-float	vec2::dot(const vec2 a, const vec2 b)
+float	vec2::dot(const vec2 vec)
 {
-	return (a.x * b.x) + (a.y * b.y);
+	return (this->x * vec.x) + (this->y * vec.y);
 }
 
-float	vec2::angle(const vec2 a, const vec2 b)
+float	vec2::angle(const vec2 vec)
 {
-	float angle = dot(a, b);
-	angle /= (magnitude(a) * magnitude(b));
+	vec2 tmp = vec;
+	float angle = this->dot(tmp);
+	angle /= (this->magnitude() * tmp.magnitude());
 	return angle = acosf(angle);
 }
 
-vec2	vec2::projection(const vec2 a, const vec2 b)
+vec2	vec2::projection(const vec2 vec)
 {
-	vec2 bn = b / magnitude(b);
-	return bn * dot(a, bn);
+	vec2 tmp = vec;
+	vec2 bn = tmp / tmp.magnitude();
+	return bn * this->dot(bn);
 }
 
 namespace math

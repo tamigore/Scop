@@ -34,8 +34,6 @@ class vec3
 		vec3	operator*(const float rhs) const;
 		vec3	operator/(const vec3 &rhs) const;
 		vec3	operator/(const float rhs) const;
-		vec3	operator%(const vec3 &rhs) const;
-		vec3	operator%(const float rhs) const;
 		vec3&	operator+=(const vec3 &rhs);
 		vec3&	operator+=(const float rhs);
 		vec3&	operator-=(const vec3 &rhs);
@@ -48,13 +46,12 @@ class vec3
 		bool	operator!=(const vec3 &rhs) const;
 		float&	operator[](const int index);
 
-
-		vec3	normalize();
-		vec3	cross(const vec3 a, const vec3 b);
-		float	magnitude(const vec3 vec);
-		float	dot(const vec3 a, const vec3 b);
-		float	angle(const vec3 a, const vec3 b);
-		vec3	projection(const vec3 a, const vec3 b);
+		float	magnitude();
+		void	normalize();
+		vec3	cross(const vec3 vec);
+		float	dot(const vec3 vec);
+		float	angle(const vec3 vec);
+		vec3	projection(const vec3 vec);
 };
 
 std::ostream&	operator<<(std::ostream &o, const vec3 &rhs);

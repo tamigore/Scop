@@ -20,7 +20,7 @@ class vec2
 		vec2(const float* src);
 		~vec2();
 
-		float*	getFloatTab() const;
+		float*	getTab() const;
 
 		vec2&	operator=(const vec2 &rhs);
 		vec2&	operator=(const float &rhs);
@@ -33,8 +33,6 @@ class vec2
 		vec2	operator*(const float rhs) const;
 		vec2	operator/(const vec2 &rhs) const;
 		vec2	operator/(const float rhs) const;
-		vec2	operator%(const vec2 &rhs) const;
-		vec2	operator%(const float rhs) const;
 		vec2&	operator+=(const vec2 &rhs);
 		vec2&	operator+=(const float rhs);
 		vec2&	operator-=(const vec2 &rhs);
@@ -47,12 +45,12 @@ class vec2
 		bool	operator!=(const vec2 &rhs) const;
 		float&	operator[](const int index);
 
-		vec2	normalize();
-		float	cross(const vec2 a, const vec2 b);
-		float	magnitude(const vec2 vec);
-		float	dot(const vec2 a, const vec2 b);
-		float	angle(const vec2 a, const vec2 b);
-		vec2	projection(const vec2 a, const vec2 b);
+		float	magnitude();
+		void	normalize();
+		float	cross(const vec2 vec);
+		float	dot(const vec2 vec);
+		float	angle(const vec2 vec);
+		vec2	projection(const vec2 vec);
 };
 
 std::ostream&	operator<<(std::ostream &o, const vec2 &rhs);

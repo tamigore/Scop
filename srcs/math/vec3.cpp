@@ -216,40 +216,44 @@ float&	vec3::operator[](const int index)
 		throw std::out_of_range("vec3 index out of range");
 }
 
-vec3	vec3::normalize()
+float	vec3::magnitude()
 {
-	float mag = vec3::magnitude(*this);
-	return vec3(this->x / mag, this->y / mag, this->z / mag);
+	return (sqrtf(powf(this->x, 2) + powf(this->y, 2) + powf(this->z, 2)));
 }
 
-vec3	vec3::cross(const vec3 a, const vec3 b)
+void	vec3::normalize()
 {
-	return vec3(a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x);
+	float mag = this->magnitude();
+	this->x = this->x / mag;
+	this->y = this->y / mag;
+	this->z = this->z / mag;
 }
 
-float	vec3::magnitude(const vec3 vec)
+vec3	vec3::cross(const vec3 vec)
 {
-	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2) + powf(vec.z, 2)));
+	return vec3(this->y * vec.z - this->z * vec.y,
+		this->z * vec.x - this->x * vec.z,
+		this->x * vec.y - this->y * vec.x);
 }
 
-float	vec3::dot(const vec3 a, const vec3 b)
+float	vec3::dot(const vec3 vec)
 {
-	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+	return (this->x * vec.x) + (this->y * vec.y) + (this->z * vec.z);
 }
 
-float	vec3::angle(const vec3 a, const vec3 b)
+float	vec3::angle(const vec3 vec)
 {
-	float angle = dot(a, b);
-	angle /= (magnitude(a) * magnitude(b));
+	vec3 tmp = vec;
+	float angle = this->dot(tmp);
+	angle /= (this->magnitude() * tmp.magnitude());
 	return angle = acosf(angle);
 }
 
-vec3	vec3::projection(const vec3 a, const vec3 b)
+vec3	vec3::projection(const vec3 vec)
 {
-	vec3 bn = b / magnitude(b);
-	return bn * dot(a, bn);
+	vec3 tmp = vec;
+	vec3 bn = tmp / tmp.magnitude();
+	return bn * this->dot(bn);
 }
 
 namespace math

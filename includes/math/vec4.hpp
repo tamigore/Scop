@@ -37,8 +37,6 @@ class vec4
 		vec4	operator*(const float rhs) const;
 		vec4	operator/(const vec4 &rhs) const;
 		vec4	operator/(const float rhs) const;
-		vec4	operator%(const vec4 &rhs) const;
-		vec4	operator%(const float rhs) const;
 		vec4&	operator+=(const vec4 &rhs);
 		vec4&	operator+=(const float rhs);
 		vec4&	operator-=(const vec4 &rhs);
@@ -50,7 +48,6 @@ class vec4
 		bool	operator==(const vec4 &rhs) const;
 		bool	operator!=(const vec4 &rhs) const;
 		float&	operator[](const int index);
-
 
 		vec4	normalize();
 		vec4	cross(const vec4 a, const vec4 b);

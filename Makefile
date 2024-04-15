@@ -4,16 +4,21 @@ CFLAGS =  -std=c++17
 OPENGL = -lglut -lGLU -lGL -lglfw -lX11
 
 CPPSRCS =	main.cpp
-CSRCS =	glad.c
-
 # game.cpp	\
 utils.cpp
 
-MATH =	mat4.cpp	\
+CSRCS =	glad.c
+
+MATH =	math.cpp	\
+		mat4.cpp	\
+		mat3.cpp	\
+		mat2.cpp	\
+		vec4.cpp	\
 		vec3.cpp	\
 		vec2.cpp
 
-OBJECTS =	shader.cpp
+OBJECTS =	shader.cpp \
+			camera.cpp
 
 csrcs =	$(addprefix srcs/, $(CSRCS))
 
