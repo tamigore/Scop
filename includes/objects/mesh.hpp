@@ -20,9 +20,10 @@ class mesh
 		void	setupMesh();
 
 	public:
-        std::vector<vertex>       vertices;
-        std::vector<unsigned int> indices;
-        std::vector<texture>      textures;		// material					m_material;
+        std::vector<vertex>			vertices;
+        std::vector<unsigned int>	indices;
+        std::vector<texture>		textures;
+		// material					m_material;
 
 		mesh();
 		mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<texture> textures);

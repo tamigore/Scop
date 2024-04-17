@@ -4,6 +4,7 @@
 # include <math.h>
 # include <iostream>
 # include "vec3.hpp"
+# include "vec4.hpp"
 
 namespace math
 {
@@ -32,6 +33,8 @@ class mat4
 		mat4	operator-(const mat4 &rhs) const;
 		mat4	operator-(const float rhs) const;
 		mat4	operator*(const mat4 &rhs) const;
+		vec3	operator*(const vec3 &rhs) const;
+		vec4	operator*(const vec4 &rhs) const;
 		mat4	operator*(const float rhs) const;
 		mat4	operator/(const mat4 &rhs) const;
 		mat4	operator/(const float rhs) const;
@@ -52,14 +55,26 @@ class mat4
 };
 
 std::ostream&	operator<<(std::ostream &o, const mat4 &rhs);
-// mat4			operator*(const mat4 lhs, const mat4 &rhs);
-// mat4			operator*(const float lhs, const mat4 &rhs);
-// mat4			operator/(const mat4 lhs, const mat4 &rhs);
-// mat4			operator/(const float lhs, const mat4 &rhs);
-// mat4			operator+(const mat4 lhs, const mat4 &rhs);
-// mat4			operator+(const float lhs, const mat4 &rhs);
-// mat4			operator-(const mat4 lhs, const mat4 &rhs);
-// mat4			operator-(const float lhs, const mat4 &rhs);
+// mat4			operator+(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator+(const mat4 &rhs, const float lhs);
+// mat4			operator-(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator-(const mat4 &rhs, const float lhs);
+// mat4			operator*(const mat4 &rhs, const mat4 &lhs);
+// vec3			operator*(const mat4 &rhs, const vec3 &lhs);
+// vec4			operator*(const mat4 &rhs, const vec4 &lhs);
+// mat4			operator*(const mat4 &rhs, const float lhs);
+// mat4			operator/(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator/(const mat4 &rhs, const float lhs);
+// mat4			operator+=(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator+=(const mat4 &rhs, const float lhs);
+// mat4			operator-=(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator-=(const mat4 &rhs, const float lhs);
+// mat4			operator*=(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator*=(const mat4 &rhs, const float lhs);
+// mat4			operator/=(const mat4 &rhs, const mat4 &lhs);
+// mat4			operator/=(const mat4 &rhs, const float lhs);
+// bool			operator==(const mat4 &rhs, const mat4 &lhs);
+// bool			operator!=(const mat4 &rhs, const mat4 &lhs);
 
 }
 

@@ -59,6 +59,26 @@ vec3			operator*(const float lhs, const vec3 &rhs);
 vec3			operator/(const float lhs, const vec3 &rhs);
 vec3			operator+(const float lhs, const vec3 &rhs);
 vec3			operator-(const float lhs, const vec3 &rhs);
+
+// vec3			operator+(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator+(const vec3 &rhs, const float lhs);
+// vec3			operator-(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator-(const vec3 &rhs, const float lhs);
+// vec3			operator*(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator*(const vec3 &rhs, const float lhs);
+// vec3			operator/(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator/(const vec3 &rhs, const float lhs);
+// vec3			operator+=(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator+=(const vec3 &rhs, const float lhs);
+// vec3			operator-=(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator-=(const vec3 &rhs, const float lhs);
+// vec3			operator*=(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator*=(const vec3 &rhs, const float lhs);
+// vec3			operator/=(const vec3 &rhs, const vec3 &lhs);
+// vec3			operator/=(const vec3 &rhs, const float lhs);
+// bool			operator==(const vec3 &rhs, const vec3 &lhs);
+// bool			operator!=(const vec3 &rhs, const vec3 &lhs);
+
 }
 
 #endif

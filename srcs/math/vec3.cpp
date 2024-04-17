@@ -268,7 +268,7 @@ namespace math
 	{
 		return (vec3(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs));
 	}
-	
+
 	vec3			operator/(const float lhs, const vec3 &rhs)
 	{
 		return (vec3(rhs.x / lhs, rhs.y / lhs, rhs.z / lhs));
@@ -283,4 +283,94 @@ namespace math
 	{
 		return (vec3(rhs.x - lhs, rhs.y - lhs, rhs.z - lhs));
 	}
+
+	// vec3			operator+(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x + lhs.x, rhs.y + lhs.y, rhs.z + lhs.z));
+	// }
+
+	// vec3			operator+(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x + lhs, rhs.y + lhs, rhs.z + lhs));
+	// }
+
+	// vec3			operator-(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x - lhs.x, rhs.y - lhs.y, rhs.z - lhs.z));
+	// }
+
+	// vec3			operator-(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x - lhs, rhs.y - lhs, rhs.z - lhs));
+	// }
+
+	// vec3			operator*(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x * lhs.x, rhs.y * lhs.y, rhs.z * lhs.z));
+	// }
+
+	// vec3			operator*(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs));
+	// }
+
+	// vec3			operator/(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x / lhs.x, rhs.y / lhs.y, rhs.z / lhs.z));
+	// }
+
+	// vec3			operator/(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x / lhs, rhs.y / lhs, rhs.z / lhs));
+	// }
+
+	// vec3			operator+=(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x + lhs.x, rhs.y + lhs.y, rhs.z + lhs.z));
+	// }
+
+	// vec3			operator+=(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x + lhs, rhs.y + lhs, rhs.z + lhs));
+	// }
+
+	// vec3			operator-=(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x - lhs.x, rhs.y - lhs.y, rhs.z - lhs.z));
+	// }
+
+	// vec3			operator-=(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x - lhs, rhs.y - lhs, rhs.z - lhs));
+	// }
+
+	// vec3			operator*=(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x * lhs.x, rhs.y * lhs.y, rhs.z * lhs.z));
+	// }
+
+	// vec3			operator*=(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs));	
+	// }
+
+	// vec3			operator/=(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (vec3(rhs.x / lhs.x, rhs.y / lhs.y, rhs.z / lhs.z));
+	// }
+
+	// vec3			operator/=(const vec3 &rhs, const float lhs)
+	// {
+	// 	return (vec3(rhs.x / lhs, rhs.y / lhs, rhs.z / lhs));
+	// }
+
+	// bool			operator==(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return (rhs.x == lhs.x && rhs.y == lhs.y && rhs.z == lhs.z);
+	// }
+
+	// bool			operator!=(const vec3 &rhs, const vec3 &lhs)
+	// {
+	// 	return !(rhs == lhs);
+	// }
 }
