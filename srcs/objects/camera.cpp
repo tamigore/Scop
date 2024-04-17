@@ -1,51 +1,54 @@
 #include "../../includes/objects/camera.hpp"
 
+
+// using namespace obj;
+
 // camera::camera()
 // {
-// 	this->position = math::vec3(0.0f, 0.0f, 0.0f);
-// 	this->worldUp = math::vec3(0.0f, 0.0f, -1.0f);
-// 	this->yaw = YAW;
-// 	this->pitch = PITCH;
-// 	this->movementSpeed = SPEED;
-// 	this->mouseSensitivity = SENSITIVITY;
-// 	this->zoom = ZOOM;
+// 	this->Position = math::vec3(0.0f, 0.0f, 0.0f);
+// 	this->WorldUp = math::vec3(0.0f, 0.0f, -1.0f);
+// 	this->Yaw = YAW;
+// 	this->Pitch = PITCH;
+// 	this->MovementSpeed = SPEED;
+// 	this->MouseSensitivity = SENSITIVITY;
+// 	this->Zoom = ZOOM;
 // 	updateCameraVectors();
 // }
 
 // camera::camera(math::vec3 position)
 // {
-// 	this->position = position;
-// 	this->worldUp = math::vec3(0.0f, 0.0f, 1.0f);
-// 	this->yaw = YAW;
-// 	this->pitch = PITCH;
-// 	this->movementSpeed = SPEED;
-// 	this->mouseSensitivity = SENSITIVITY;
-// 	this->zoom = ZOOM;
+// 	this->Position = position;
+// 	this->WorldUp = math::vec3(0.0f, 0.0f, 1.0f);
+// 	this->Yaw = YAW;
+// 	this->Pitch = PITCH;
+// 	this->MovementSpeed = SPEED;
+// 	this->MouseSensitivity = SENSITIVITY;
+// 	this->Zoom = ZOOM;
 // 	updateCameraVectors();
 // }
 
 // camera::camera(math::vec3 position, math::vec3 up, float yaw, float pitch)
 // {
-// 	this->position = position;
-// 	this->worldUp = up;
-// 	this->yaw = yaw;
-// 	this->pitch = pitch;
-// 	this->movementSpeed = SPEED;
-// 	this->mouseSensitivity = SENSITIVITY;
-// 	this->zoom = ZOOM;
+// 	this->Position = position;
+// 	this->WorldUp = up;
+// 	this->Yaw = yaw;
+// 	this->Pitch = pitch;
+// 	this->MovementSpeed = SPEED;
+// 	this->MouseSensitivity = SENSITIVITY;
+// 	this->Zoom = ZOOM;
 // 	updateCameraVectors();
 // }
 
 // // constructor with scalar values
 // camera::camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) 
 // {
-// 	this->position = math::vec3(posX, posY, posZ);
-// 	this->worldUp = math::vec3(upX, upY, upZ);
-// 	this->yaw = yaw;
-// 	this->pitch = pitch;
-// 	this->movementSpeed = SPEED;
-// 	this->mouseSensitivity = SENSITIVITY;
-// 	this->zoom = ZOOM;
+// 	this->Position = math::vec3(posX, posY, posZ);
+// 	this->WorldUp = math::vec3(upX, upY, upZ);
+// 	this->Yaw = yaw;
+// 	this->Pitch = pitch;
+// 	this->MovementSpeed = SPEED;
+// 	this->MouseSensitivity = SENSITIVITY;
+// 	this->Zoom = ZOOM;
 // 	updateCameraVectors();
 // }
 
@@ -54,39 +57,39 @@
 // // returns the view matrix calculated using Euler Angles and the LookAt Matrix
 // math::mat4	camera::GetViewMatrix()
 // {
-// 	return math::lookAt(this->position, this->position + this->front, this->up);
+// 	return math::lookAt(this->Position, this->Position + this->Front, this->up);
 // }
 
 // // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 // void	camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 // {
-// 	float velocity = this->movementSpeed * deltaTime;
+// 	float velocity = this->MovementSpeed * deltaTime;
 // 	if (direction == FORWARD)
-// 		this->position += this->front * velocity;
+// 		this->Position += this->Front * velocity;
 // 	if (direction == BACKWARD)
-// 		this->position -= this->front * velocity;
+// 		this->Position -= this->Front * velocity;
 // 	if (direction == LEFT)
-// 		this->position -= this->right * velocity;
+// 		this->Position -= this->Right * velocity;
 // 	if (direction == RIGHT)
-// 		this->position += this->right * velocity;
+// 		this->Position += this->Right * velocity;
 // }
 
 // // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 // void	camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 // {
-// 	xoffset *= mouseSensitivity;
-// 	yoffset *= mouseSensitivity;
+// 	xoffset *= this->MouseSensitivity;
+// 	yoffset *= this->MouseSensitivity;
 
-// 	this->yaw   += xoffset;
-// 	this->pitch += yoffset;
+// 	this->Yaw   += xoffset;
+// 	this->Pitch += yoffset;
 
-// 	// make sure that when pitch is out of bounds, screen doesn't get flipped
+// 	// make sure that when Pitch is out of bounds, screen doesn't get flipped
 // 	if (constrainPitch)
 // 	{
-// 		if (this->pitch > 89.0f)
-// 			this->pitch = 89.0f;
-// 		if (this->pitch < -89.0f)
-// 			this->pitch = -89.0f;
+// 		if (this->Pitch > 89.0f)
+// 			this->Pitch = 89.0f;
+// 		if (this->Pitch < -89.0f)
+// 			this->Pitch = -89.0f;
 // 	}
 
 // 	// update Front, Right and Up Vectors using the updated Euler angles
@@ -96,29 +99,23 @@
 // // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 // void	camera::ProcessMouseScroll(float yoffset)
 // {
-// 	this->zoom -= (float)yoffset;
-// 	if (this->zoom < 1.0f)
-// 		this->zoom = 1.0f;
-// 	if (this->zoom > 45.0f)
-// 		this->zoom = 45.0f;
+// 	this->Zoom -= (float)yoffset;
+// 	if (this->Zoom < 1.0f)
+// 		this->Zoom = 1.0f;
+// 	if (this->Zoom > 45.0f)
+// 		this->Zoom = 45.0f;
 // }
 
-// // calculates the front vector from the Camera's (updated) Euler Angles
+// // calculates the Front vector from the Camera's (updated) Euler Angles
 // void	camera::updateCameraVectors()
 // {
-// 	// calculate the new Front vector
-// 	math::vec3 front;
-// 	std::cout << "yaw: " << this->yaw << std::endl;
-// 	std::cout << "pitch: " << this->pitch << std::endl;
-
-// 	this->front.x = std::cos(math::radians(this->yaw)) * std::cos(math::radians(this->pitch));
-// 	this->front.y = std::sin(math::radians(this->pitch));
-// 	this->front.z = std::sin(math::radians(this->yaw)) * std::cos(math::radians(this->pitch));
-// 	this->front = math::normalize(this->front);
-// 	// also re-calculate the Right and Up vector
-// 	this->right = math::normalize(math::cross(this->front, this->worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-// 	this->up    = math::normalize(math::cross(this->right, this->front));
-// 	std::cout << "front: " << this->front << std::endl;
-// 	std::cout << "right: " << this->right << std::endl;
-// 	std::cout << "up: " << this->up << std::endl;
+// 	this->Front.x = std::cos(math::radians(this->Yaw)) * std::cos(math::radians(this->Pitch));
+// 	this->Front.y = std::sin(math::radians(this->Pitch));
+// 	this->Front.z = std::sin(math::radians(this->Yaw)) * std::cos(math::radians(this->Pitch));
+// 	this->Front = math::normalize(this->Front);
+// 	this->Right = math::normalize(math::cross(this->Front, this->WorldUp));
+// 	this->Up    = math::normalize(math::cross(this->Right, this->Front));
+// 	std::cout << "Front: " << this->Front << std::endl;
+// 	std::cout << "Right: " << this->Right << std::endl;
+// 	std::cout << "Up: " << this->Up << std::endl;
 // }

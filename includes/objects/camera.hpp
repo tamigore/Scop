@@ -3,12 +3,12 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glad/glad.h>
 #include "../math/math.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "../../includes/glad/glad.h"
 
-// Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
+namespace obj
+{
+	// Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum Camera_Movement {
     FORWARD,
     BACKWARD,
@@ -25,7 +25,7 @@ const float ZOOM        =  45.0f;
 
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
-class Camera
+class camera
 {
 public:
     // camera Attributes
@@ -43,7 +43,7 @@ public:
     float Zoom;
 
     // constructor with vectors
-    Camera(math::vec3 position = math::vec3(0.0f, 0.0f, 0.0f), math::vec3 up = math::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(math::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    camera(math::vec3 position = math::vec3(0.0f, 0.0f, 0.0f), math::vec3 up = math::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(math::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
         Position = position;
         WorldUp = up;
@@ -52,7 +52,7 @@ public:
         updateCameraVectors();
     }
     // constructor with scalar values
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(math::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(math::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
         Position = math::vec3(posX, posY, posZ);
         WorldUp = math::vec3(upX, upY, upZ);
@@ -149,4 +149,7 @@ private:
         Up    = math::normalize(math::cross(Right, Front));
     }
 };
+
+} // namespace obj
+
 #endif
