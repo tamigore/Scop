@@ -395,11 +395,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 1080;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(math::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -500,17 +500,17 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
     // world space positions of our cubes
-    glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
+    math::vec3 cubePositions[] = {
+        math::vec3( 0.0f,  0.0f,  0.0f),
+        math::vec3( 2.0f,  5.0f, -15.0f),
+        math::vec3(-1.5f, -2.2f, -2.5f),
+        math::vec3(-3.8f, -2.0f, -12.3f),
+        math::vec3( 2.4f, -0.4f, -3.5f),
+        math::vec3(-1.7f,  3.0f, -7.5f),
+        math::vec3( 1.3f, -2.0f, -2.5f),
+        math::vec3( 1.5f,  2.0f, -2.5f),
+        math::vec3( 1.5f,  0.2f, -1.5f),
+        math::vec3(-1.3f,  1.0f, -1.5f)
     };
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -616,11 +616,11 @@ int main()
         ourShader.use();
 
         // pass projection matrix to shader (note that in this case it could change every frame)
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        math::mat4 projection = math::perspective(math::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         ourShader.setMat4("projection", projection);
 
         // camera/view transformation
-        glm::mat4 view = camera.GetViewMatrix();
+        math::mat4 view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
         // render boxes
@@ -628,10 +628,10 @@ int main()
         for (unsigned int i = 0; i < 10; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
-            glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            model = glm::translate(model, cubePositions[i]);
+            math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+            model = math::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            model = math::rotate(model, math::radians(angle), math::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -703,7 +703,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     lastX = xpos;
     lastY = ypos;
 
-    camera.ProcessMouseMovement(xoffset, yoffset, true);
+    camera.ProcessMouseMovement(xoffset*0.1, yoffset* 0.1, true);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called

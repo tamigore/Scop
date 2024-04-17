@@ -169,12 +169,26 @@ mat4	mat4::operator-(const float rhs) const
 
 mat4	mat4::operator*(const mat4 &rhs) const
 {
-	mat4	tmp(rhs);
-	mat4	res;
-	for (int x = 0; x < 4; x++)
-		for (int y = 0; y < 4; y++)
-			res[x][y] += this->value[x][y] * tmp[y][x];
-	return (res);
+    mat4    mat;
+    mat4    tmp(rhs);
+    int        x;
+    int        y;
+
+    y = 0;
+    while (y < 4)
+    {
+        x = 0;
+        while (x < 4)
+        {
+            mat[y][x] = this->value[y][0] * tmp[0][x]
+                + this->value[y][1] * tmp[1][x]
+                + this->value[y][2] * tmp[2][x]
+                + this->value[y][3] * tmp[3][x];
+            x++;
+        }
+        y++;
+    }
+    return (mat);
 }
 
 vec3	mat4::operator*(const vec3 &rhs) const

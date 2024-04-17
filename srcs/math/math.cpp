@@ -83,6 +83,10 @@ mat4	math::lookAt(vec3 position, vec3 target, vec3 worldUp)
     vec3 yaxis = cross(zaxis, xaxis);
 
 	std::cout << "xaxis: " << xaxis << std::endl;
+	std::cout << "{" << std::endl;
+	std::cout << "    " << cross(normalize(worldUp), zaxis) << std::endl;
+	std::cout << "    " << normalize(worldUp) << std::endl;
+	std::cout << "}" << std::endl;
 	std::cout << "yaxis: " << yaxis << std::endl;
 	std::cout << "zaxis: " << zaxis << std::endl;
     // Create translation and rotation matrix 
@@ -179,12 +183,12 @@ vec3	math::normalize(const vec3 vec)
 	res.x = vec.x / mag;
 	res.y = vec.y / mag;
 	res.z = vec.z / mag;
-	if (res.x <  PRECISION)
-		res.x = 0;
-	if (res.y <  PRECISION)
-		res.y = 0;
-	if (res.z <  PRECISION)
-		res.z = 0;
+	// if (res.x <  PRECISION)
+	// 	res.x = 0;
+	// if (res.y <  PRECISION)
+	// 	res.y = 0;
+	// if (res.z <  PRECISION)
+	// 	res.z = 0;
 	return res;
 }
 

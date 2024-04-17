@@ -23,11 +23,11 @@ vec3::vec3(const float &src)
 	this->z = src;
 }
 
-vec3::vec3(const float &x, const float &y, const float &z)
+vec3::vec3(const float &xx, const float &yy, const float &zz)
 {
-	this->x = x;
-	this->y = y;
-	this->z = z;
+	this->x = xx;
+	this->y = yy;
+	this->z = zz;
 }
 
 vec3::vec3(const float* src)
