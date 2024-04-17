@@ -190,9 +190,9 @@ vec3	math::normalize(const vec3 vec)
 
 vec3	math::cross(const vec3 a, const vec3 b)
 {
-	return vec3(a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x);
+	return vec3(a.y * b.z - b.y * a.z,
+				a.z * b.x - b.z * a.x,
+				a.x * b.y - b.x * a.y);
 }
 
 float	math::dot(const vec3 a, const vec3 b)

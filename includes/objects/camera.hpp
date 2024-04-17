@@ -3,6 +3,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include "../math/math.hpp"
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -63,7 +65,22 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix()
     {
-        return glm::lookAt(Position, Position + Front, Up);
+		math::vec3 pos(Position.x, Position.y, Position.z);	
+		math::vec3 front(Front.x, Front.y, Front.z);	
+		math::vec3 up(Up.x, Up.y, Up.z);
+		math::mat4 view = math::lookAt(pos, pos + front, up);
+		glm::mat4 mat =	glm::lookAt(Position, Position + Front, Up);
+		for (int i = 0; i < 4; i++)
+		{
+			std::cout << "| ";
+			for (int y = 0; y < 4; y++)
+			{
+				std::cout << mat[y][i] << " ";
+			}
+			std::cout << "|" << std::endl;
+		}
+		std::cout << std::endl;
+        return mat;
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
