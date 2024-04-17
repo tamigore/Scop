@@ -179,12 +179,12 @@ vec3	math::normalize(const vec3 vec)
 	res.x = vec.x / mag;
 	res.y = vec.y / mag;
 	res.z = vec.z / mag;
-	if (res.x <  PRECISION)
-		res.x = 0;
-	if (res.y <  PRECISION)
-		res.y = 0;
-	if (res.z <  PRECISION)
-		res.z = 0;
+	// if (res.x <  PRECISION)
+	// 	res.x = 0;
+	// if (res.y <  PRECISION)
+	// 	res.y = 0;
+	// if (res.z <  PRECISION)
+	// 	res.z = 0;
 	return res;
 }
 
