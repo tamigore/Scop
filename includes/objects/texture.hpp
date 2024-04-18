@@ -6,10 +6,12 @@
 namespace obj
 {
 
-struct texture {
+struct texture
+{
     unsigned int	id;
     std::string		type;
-};  
+    std::string		path;
+};
 
 }
 

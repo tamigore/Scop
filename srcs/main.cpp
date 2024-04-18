@@ -4,6 +4,7 @@
 #include "../includes/stb_image.h"
 #include "../includes/objects/shader.hpp"
 #include "../includes/objects/camera.hpp"
+#include "../includes/objects/mesh.hpp"
 
 #include <vector>
 #include <GLFW/glfw3.h>
@@ -407,8 +408,11 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-int main()
+int main(int ac, char **av)
 {
+	if (ac != 2)
+		return -1;
+
 	// glfw: initialize and configure
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -449,78 +453,86 @@ int main()
 	obj::shader ourShader("srcs/objects/textures/texture.vs", "srcs/objects/textures/texture.fs");
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	// float vertices[] = {
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	// 	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	// 	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	// 	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	// 	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	// 	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
+	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	// 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	// };
 	// world space positions of our cubes
-	math::vec3 cubePositions[] = {
-		math::vec3( 0.0f,  0.0f,  0.0f),
-		math::vec3( 2.0f,  5.0f, -15.0f),
-		math::vec3(-1.5f, -2.2f, -2.5f),
-		math::vec3(-3.8f, -2.0f, -12.3f),
-		math::vec3( 2.4f, -0.4f, -3.5f),
-		math::vec3(-1.7f,  3.0f, -7.5f),
-		math::vec3( 1.3f, -2.0f, -2.5f),
-		math::vec3( 1.5f,  2.0f, -2.5f),
-		math::vec3( 1.5f,  0.2f, -1.5f),
-		math::vec3(-1.3f,  1.0f, -1.5f)
-	};
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	// math::vec3 cubePositions[] = {
+	// 	math::vec3( 0.0f,  0.0f,  0.0f),
+	// 	math::vec3( 2.0f,  5.0f, -15.0f),
+	// 	math::vec3(-1.5f, -2.2f, -2.5f),
+	// 	math::vec3(-3.8f, -2.0f, -12.3f),
+	// 	math::vec3( 2.4f, -0.4f, -3.5f),
+	// 	math::vec3(-1.7f,  3.0f, -7.5f),
+	// 	math::vec3( 1.3f, -2.0f, -2.5f),
+	// 	math::vec3( 1.5f,  2.0f, -2.5f),
+	// 	math::vec3( 1.5f,  0.2f, -1.5f),
+	// 	math::vec3(-1.3f,  1.0f, -1.5f)
+	// };
+	// unsigned int VBO, VAO;
+	// glGenVertexArrays(1, &VAO);
+	// glGenBuffers(1, &VBO);
 
-	glBindVertexArray(VAO);
+	// glBindVertexArray(VAO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// texture coord attribute
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	// // position attribute
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	// glEnableVertexAttribArray(0);
+	// // texture coord attribute
+	// glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	// glEnableVertexAttribArray(1);
+	// glBindVertexArray(mesh.VAO);
 
+	obj::mesh mesh;
+	if (!mesh.loadMesh(av[1]))
+	{
+		std::cout << "Failed to load mesh" << std::endl;
+		return -1;
+	}
+	std::cout << mesh << std::endl;
 	// load and create a texture 
 	unsigned int texture1, texture2;
 
@@ -585,8 +597,6 @@ int main()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texture2);
 
-	glBindVertexArray(VAO);
-
 	// render loop
 	while (!glfwWindowShouldClose(window))
     {
@@ -612,14 +622,15 @@ int main()
         // render boxes
 		for (unsigned int i = 0; i < 10; i++)
 		{
+			mesh.draw(ourShader);
 			// calculate the model matrix for each object and pass it to shader before drawing
-			math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-			model = math::translate(model, cubePositions[i]);
-			float angle = glfwGetTime() * 20.0f * i;
-			model = math::rotate(model, math::radians(angle), math::vec3(1.0f, 0.3f, 0.5f));
-			ourShader.setMat4("model", model);
+			// math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+			// model = math::translate(model, cubePositions[i]);
+			// float angle = glfwGetTime() * 20.0f * i;
+			// model = math::rotate(model, math::radians(angle), math::vec3(1.0f, 0.3f, 0.5f));
+			// ourShader.setMat4("model", model);
 
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			// glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

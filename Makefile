@@ -3,9 +3,8 @@ CC = g++ -Wall -Werror -Wextra
 CFLAGS =  -std=c++17
 OPENGL = -lglut -lGLU -lGL -lglfw -lX11
 
-CPPSRCS =	main.cpp
-# game.cpp	\
-utils.cpp
+CPPSRCS =	main.cpp	\
+			utils.cpp
 
 CSRCS =	glad.c
 
@@ -17,8 +16,9 @@ MATH =	math.cpp	\
 		vec3.cpp	\
 		vec2.cpp
 
-OBJECTS =	shader.cpp \
-			camera.cpp
+OBJECTS =	shader.cpp	\
+			camera.cpp	\
+			mesh.cpp
 
 csrcs =	$(addprefix srcs/, $(CSRCS))
 

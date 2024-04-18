@@ -70,32 +70,32 @@ mat4	math::perspective(float fov, float aspect, float near, float far)
 
 mat4	math::lookAt(vec3 position, vec3 target, vec3 worldUp)
 {
-	std::cout << "position: " << position << std::endl;
-	std::cout << "target: " << target << std::endl;
-	std::cout << "worldUp: " << worldUp << std::endl;
+	// std::cout << "position: " << position << std::endl;
+	// std::cout << "target: " << target << std::endl;
+	// std::cout << "worldUp: " << worldUp << std::endl;
     // 1. Position = known
     // 2. Calculate cameraDirection
-	std::cout << position - target << std::endl;
+	// std::cout << position - target << std::endl;
     vec3 zaxis = normalize(position - target);
     // 3. Get positive right axis vector
     vec3 xaxis = normalize(cross(normalize(worldUp), zaxis));
     // 4. Calculate camera up vector
     vec3 yaxis = cross(zaxis, xaxis);
 
-	std::cout << "xaxis: " << xaxis << std::endl;
-	std::cout << "{" << std::endl;
-	std::cout << "    " << cross(normalize(worldUp), zaxis) << std::endl;
-	std::cout << "    " << normalize(worldUp) << std::endl;
-	std::cout << "}" << std::endl;
-	std::cout << "yaxis: " << yaxis << std::endl;
-	std::cout << "zaxis: " << zaxis << std::endl;
+	// std::cout << "xaxis: " << xaxis << std::endl;
+	// std::cout << "{" << std::endl;
+	// std::cout << "    " << cross(normalize(worldUp), zaxis) << std::endl;
+	// std::cout << "    " << normalize(worldUp) << std::endl;
+	// std::cout << "}" << std::endl;
+	// std::cout << "yaxis: " << yaxis << std::endl;
+	// std::cout << "zaxis: " << zaxis << std::endl;
     // Create translation and rotation matrix 
     // In glm we access elements as mat[col][row] due to column-major layout
     mat4 translation = mat4(1.0f); // Identity matrix by default
     translation[3][0] = -position.x; // Fourth column, first row
     translation[3][1] = -position.y;
     translation[3][2] = -position.z;
-	std::cout << "translation:\n" << translation << std::endl;
+	// std::cout << "translation:\n" << translation << std::endl;
 
     mat4 rotation = mat4(1.0f);
     rotation[0][0] = xaxis.x; // First column, first row
@@ -107,10 +107,10 @@ mat4	math::lookAt(vec3 position, vec3 target, vec3 worldUp)
     rotation[0][2] = zaxis.x; // First column, third row
     rotation[1][2] = zaxis.y;
     rotation[2][2] = zaxis.z;
-	std::cout << "rotation:\n" << rotation << std::endl;
+	// std::cout << "rotation:\n" << rotation << std::endl;
 
 	mat4 lookAt = translation * rotation;
-	std::cout << "lookAt:\n" << lookAt << std::endl;
+	// std::cout << "lookAt:\n" << lookAt << std::endl;
     // Return lookAt matrix as combination of translation and rotation matrix
     return lookAt; // Remember to read from right to left (first translation then rotation)
 }
@@ -131,12 +131,7 @@ vec4	math::normalize(const vec4 vec)
 	float mag = magnitude(vec);
 	res.x = vec.x / mag;
 	res.y = vec.y / mag;
-	res.z = vec.z / mag;	if (res.x <  PRECISION)
-		res.x = 0;
-	if (res.y <  PRECISION)
-		res.y = 0;
-	if (res.z <  PRECISION)
-		res.z = 0;
+	res.z = vec.z / mag;
 	return res;
 }
 
@@ -183,12 +178,6 @@ vec3	math::normalize(const vec3 vec)
 	res.x = vec.x / mag;
 	res.y = vec.y / mag;
 	res.z = vec.z / mag;
-	// if (res.x <  PRECISION)
-	// 	res.x = 0;
-	// if (res.y <  PRECISION)
-	// 	res.y = 0;
-	// if (res.z <  PRECISION)
-	// 	res.z = 0;
 	return res;
 }
 
@@ -221,7 +210,10 @@ vec3	math::projection(const vec3 a, const vec3 b)
 
 float	math::magnitude(const vec2 vec)
 {
-	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2)));
+	float res = sqrtf(powf(vec.x, 2) + powf(vec.y, 2));
+	if (res == 0)
+		return (PRECISION);
+	return (res);
 }
 
 vec2	math::normalize(const vec2 a)
