@@ -1,11 +1,9 @@
-#define STB_IMAGE_IMPLEMENTATION
-
 #include "../includes/glad/glad.h"
-#include "../includes/stb_image.h"
 #include "../includes/objects/shader.hpp"
 #include "../includes/objects/camera.hpp"
 #include "../includes/objects/mesh.hpp"
 
+#include <unistd.h>
 #include <vector>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -386,9 +384,9 @@
 
 
 
-
-
-float mixValue = 0.2f;
+bool	rotate = true;
+bool	useColor = true;
+float	mixValue = 0.2f;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -451,7 +449,7 @@ int main(int ac, char **av)
 	glEnable(GL_DEPTH_TEST);
 
 	// build and compile our shader zprogram
-	obj::shader ourShader("srcs/objects/textures/texture.vs", "srcs/objects/textures/texture.fs");
+	obj::shader ourShader("srcs/objects/textures/texture.vs", "srcs/objects/textures/texture.fs", nullptr);
 
 	obj::mesh mesh;
 	if (!mesh.loadMesh(av[1]))
@@ -459,71 +457,74 @@ int main(int ac, char **av)
 		std::cout << "Failed to load mesh" << std::endl;
 		return -1;
 	}
+	mesh.add_texture("container.png", "srcs/objects/textures");
+	mesh.add_texture("awesomeface.png", "srcs/objects/textures");
 	std::cout << mesh << std::endl;
+
 	// load and create a texture 
-	unsigned int texture1, texture2;
+	// unsigned int texture1, texture2;
 
-	// texture 1
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load image, create texture and generate mipmaps
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char *data = stbi_load("srcs/objects/textures/container.png", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
+	// // texture 1
+	// glGenTextures(1, &texture1);
+	// glBindTexture(GL_TEXTURE_2D, texture1);
+	// // set the texture wrapping parameters
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// // set texture filtering parameters
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// // load image, create texture and generate mipmaps
+	// int width, height, nrChannels;
+	// // stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+	// unsigned char *data = stbi_load("srcs/objects/textures/container.png", &width, &height, &nrChannels, 0);
+	// if (data)
+	// {
+	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	// 	glGenerateMipmap(GL_TEXTURE_2D);
+	// }
+	// else
+	// {
+	// 	std::cout << "Failed to load texture" << std::endl;
+	// }
+	// stbi_image_free(data);
 
-	// texture 2
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load image, create texture and generate mipmaps
-	data = stbi_load("srcs/objects/textures/awesomeface.png", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		// note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
+	// // texture 2
+	// glGenTextures(1, &texture2);
+	// glBindTexture(GL_TEXTURE_2D, texture2);
+	// // set the texture wrapping parameters
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// // set texture filtering parameters
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// // load image, create texture and generate mipmaps
+	// data = stbi_load("srcs/objects/textures/awesomeface.png", &width, &height, &nrChannels, 0);
+	// if (data)
+	// {
+	// 	// note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
+	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	// 	glGenerateMipmap(GL_TEXTURE_2D);
+	// }
+	// else
+	// {
+	// 	std::cout << "Failed to load texture" << std::endl;
+	// }
+	// stbi_image_free(data);
 
 	// activate shader and tell opengl for each sampler to which texture unit it belongs
-	ourShader.use();
-	ourShader.setInt("texture1", 0);
-	ourShader.setInt("texture2", 1);
+	// ourShader.use();
+	// ourShader.setInt("texture1", 0);
+	// ourShader.setInt("texture2", 1);
 
 	// background color
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f); 
-
 	// bind textures on corresponding texture units
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture2);
+	// glActiveTexture(GL_TEXTURE0);
+	// glBindTexture(GL_TEXTURE_2D, texture1);
+	// glActiveTexture(GL_TEXTURE1);
+	// glBindTexture(GL_TEXTURE_2D, texture2);
 
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+ 
 	// render loop
 	while (!glfwWindowShouldClose(window))
     {
@@ -536,7 +537,9 @@ int main(int ac, char **av)
 		processInput(window);
 
 		// clear color buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		ourShader.use();
 
 		// pass projection matrix to shader (note that in this case it could change every frame)
 		math::mat4 projection = math::perspective(math::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -546,11 +549,22 @@ int main(int ac, char **av)
 		math::mat4 view = camera.GetViewMatrix();
 		ourShader.setMat4("view", view);
 
-		ourShader.setFloat("mixValue", mixValue);
+		// ourShader.setFloat("mixValue", mixValue);
+		ourShader.setBool("useColor", useColor);
 
-        // render boxes
-		for (unsigned int i = 0; i < 10; i++)
-			mesh.draw(ourShader);
+		math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+
+		if (rotate)
+		{
+			float angle = glfwGetTime() * 20.0f;
+			math::vec3 axis = math::vec3(1.0f, 1.3f, 0.0f);
+			axis.normalize();
+			model = math::rotate(model, math::radians(angle), axis);
+		}
+		ourShader.setMat4("model", model);
+	
+		// draw mesh
+		mesh.draw(ourShader);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -562,6 +576,8 @@ int main(int ac, char **av)
     return 0;
 }
 
+bool r_pressed = false;
+bool c_pressed = false;
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow *window)
 {
@@ -592,6 +608,27 @@ void processInput(GLFWwindow *window)
 			mixValue = 0.0f;
 	}
 
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		c_pressed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && c_pressed)
+	{
+		c_pressed = false;
+		useColor = !useColor;
+		std::cout << "useColor: " << useColor << std::endl;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		r_pressed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_RELEASE && r_pressed)
+	{
+		r_pressed = false;
+		rotate = !rotate;
+		std::cout << "rotate: " << rotate << std::endl;
+	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
