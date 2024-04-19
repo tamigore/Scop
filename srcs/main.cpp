@@ -388,6 +388,7 @@
 
 
 
+float mixValue = 0.2f;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -451,80 +452,6 @@ int main(int ac, char **av)
 
 	// build and compile our shader zprogram
 	obj::shader ourShader("srcs/objects/textures/texture.vs", "srcs/objects/textures/texture.fs");
-
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-	// float vertices[] = {
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	// 	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	// 	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	// 	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	// 	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	// 	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	// 	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	// 	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	// 	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	// 	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	// 	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	// 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	// 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	// 	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	// 	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	// 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	// 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	// };
-	// world space positions of our cubes
-	// math::vec3 cubePositions[] = {
-	// 	math::vec3( 0.0f,  0.0f,  0.0f),
-	// 	math::vec3( 2.0f,  5.0f, -15.0f),
-	// 	math::vec3(-1.5f, -2.2f, -2.5f),
-	// 	math::vec3(-3.8f, -2.0f, -12.3f),
-	// 	math::vec3( 2.4f, -0.4f, -3.5f),
-	// 	math::vec3(-1.7f,  3.0f, -7.5f),
-	// 	math::vec3( 1.3f, -2.0f, -2.5f),
-	// 	math::vec3( 1.5f,  2.0f, -2.5f),
-	// 	math::vec3( 1.5f,  0.2f, -1.5f),
-	// 	math::vec3(-1.3f,  1.0f, -1.5f)
-	// };
-	// unsigned int VBO, VAO;
-	// glGenVertexArrays(1, &VAO);
-	// glGenBuffers(1, &VBO);
-
-	// glBindVertexArray(VAO);
-
-	// glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// // position attribute
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	// glEnableVertexAttribArray(0);
-	// // texture coord attribute
-	// glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	// glEnableVertexAttribArray(1);
-	// glBindVertexArray(mesh.VAO);
 
 	obj::mesh mesh;
 	if (!mesh.loadMesh(av[1]))
@@ -619,19 +546,11 @@ int main(int ac, char **av)
 		math::mat4 view = camera.GetViewMatrix();
 		ourShader.setMat4("view", view);
 
+		ourShader.setFloat("mixValue", mixValue);
+
         // render boxes
 		for (unsigned int i = 0; i < 10; i++)
-		{
 			mesh.draw(ourShader);
-			// calculate the model matrix for each object and pass it to shader before drawing
-			// math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-			// model = math::translate(model, cubePositions[i]);
-			// float angle = glfwGetTime() * 20.0f * i;
-			// model = math::rotate(model, math::radians(angle), math::vec3(1.0f, 0.3f, 0.5f));
-			// ourShader.setMat4("model", model);
-
-			// glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -646,17 +565,33 @@ int main(int ac, char **av)
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(obj::FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(obj::BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(obj::LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(obj::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(obj::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(obj::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(obj::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(obj::RIGHT, deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
+	{
+		std::cout << "UP mixValue: " << mixValue << std::endl;
+		mixValue += 0.01f;
+		if(mixValue >= 1.0f)
+			mixValue = 1.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
+	{
+		std::cout << "Down mixValue: " << mixValue << std::endl;
+		mixValue -= 0.01f;
+		if (mixValue <= 0.0f)
+			mixValue = 0.0f;
+	}
+
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

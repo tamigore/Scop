@@ -56,9 +56,15 @@ void	mesh::draw(shader &shader)
 	// 	// and finally bind the texture
 	// 	glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	// }
+	// glActiveTexture(GL_TEXTURE0); // active proper texture unit before binding
+	// glUniform1i(glGetUniformLocation(shader.ID, "texture1"), texture1);
+	// glUniform1i(glGetUniformLocation(shader.ID, "texture2"), texture2);
+	// glBindTexture(GL_TEXTURE_2D, texture1);
+	// glBindTexture(GL_TEXTURE_2D, texture2);
+
 	math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	float angle = glfwGetTime() * 20.0f;
-	model = math::rotate(model, math::radians(angle), math::vec3(1.0f, 0.3f, 0.5f));
+	model = math::rotate(model, math::radians(angle), math::vec3(0.0f, 0.0f, 1.0f));
 	shader.setMat4("model", model);
 	// draw mesh
 	glBindVertexArray(VAO);
@@ -137,7 +143,9 @@ bool	mesh::add_vertex_position(std::string curline)
 	if (this->position_indices.size() >= this->vertices.size())
 		this->vertices.push_back(vertex());
 	this->vertices[this->position_indices.size()].Position = position;
-	this->position_indices.push_back(this->position_indices.size());	
+	this->vertices[this->position_indices.size()].Normal = math::vec3(0.3f, 0.3f, 0.4f);
+	this->vertices[this->position_indices.size()].Texture = math::vec2(0.5f, 0.5f);
+	this->position_indices.push_back(this->position_indices.size());
 	return true;
 }
 
@@ -196,7 +204,6 @@ bool	mesh::add_face(std::string pram)
 	obj::face newface;
 	std::vector<std::string> tokens;
 	split(pram, tokens, " ");
-	obj::vertex vertex;
 	for (unsigned int i = 0; i < tokens.size(); i++)
 	{
 		std::vector<std::string> face_tokens;
@@ -222,9 +229,14 @@ bool	mesh::add_face(std::string pram)
 			newface.m_normal_index.push_back(0);
 			newface.m_texture_index.push_back(0);
 		}
-		this->indices.push_back(newface.m_vertice_index[i] - 1);
 	}
 	this->faces.push_back(newface);
+	for (unsigned int i = 0; i < newface.m_vertice_index.size() - 2; i++)
+	{
+		this->indices.push_back(newface.m_vertice_index[0] - 1);
+		this->indices.push_back(newface.m_vertice_index[i + 1] - 1);
+		this->indices.push_back(newface.m_vertice_index[i + 2] - 1);
+	}
 	return true;
 }
 
