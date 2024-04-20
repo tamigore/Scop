@@ -91,6 +91,8 @@ void mesh::setupMesh()
 
 	// vertex positions
 	glEnableVertexAttribArray(0);	
+	std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
+	std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
 	// vertex normals
 	glEnableVertexAttribArray(1);	
@@ -144,7 +146,7 @@ bool	mesh::add_vertex_position(std::string curline)
 		this->vertices.push_back(vertex());
 	this->vertices[this->position_indices.size()].Position = position;
 	this->vertices[this->position_indices.size()].Normal = math::vec3(0.3f, 0.3f, 0.4f);
-	this->vertices[this->position_indices.size()].Texture = math::vec2(0.5f, 0.5f);
+	this->vertices[this->position_indices.size()].Texture = math::vec2(position.x, position.y);
 	this->position_indices.push_back(this->position_indices.size());
 	return true;
 }
