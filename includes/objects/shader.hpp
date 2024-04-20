@@ -22,7 +22,7 @@ class shader
 		// the program ID
 		unsigned int	ID;
 	
-		shader(const char* vertexPath, const char* fragmentPath);
+		shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath);
 
 		void	use();
 		void	setBool(const std::string &name, bool value) const;

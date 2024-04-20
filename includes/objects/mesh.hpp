@@ -25,6 +25,8 @@ class mesh
 		bool	add_vertex_normal(std::string curline);
 		bool	add_face(std::string pram);
 
+		unsigned int	TextureFromFile(const char *path, const std::string &directory);
+
 	public:
 		std::string					name;
 		// std::vector<math::vec3>		vertices;
@@ -50,7 +52,10 @@ class mesh
 
         void	draw(shader &shader);
 		bool	loadMesh(const char *path);
-};
+		bool	add_texture(const char *name, const char *path);
+		void	min_max_bounds(math::vec3& min_bound, math::vec3& max_bound);
+		void	center_around_orgin();
+};	
 
 std::ostream&	operator<<(std::ostream &o, const mesh &rhs);
 

@@ -1,5 +1,9 @@
+# define STB_IMAGE_IMPLEMENTATION
+# include "../../includes/stb_image.h"
+
 #include "../../includes/objects/mesh.hpp"
 #include "../glad/glad.h"
+
 #include <GLFW/glfw3.h>
 
 using namespace obj;
@@ -19,54 +23,36 @@ mesh::mesh(char* path)
 	setupMesh();
 }
 
-// mesh::mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<texture> textures)
-// {
-// 	this->vertices = vertices;
-// 	this->indices = indices;
-// 	this->textures = textures;
-// 	setupMesh();
-// }
-
 mesh::~mesh() {}
 
 void	mesh::draw(shader &shader)
 {
 	// bind appropriate textures
-	// unsigned int diffuseNr  = 1;
-	// unsigned int specularNr = 1;
-	// unsigned int normalNr   = 1;
-	// unsigned int heightNr   = 1;
-	// for(unsigned int i = 0; i < textures.size(); i++)
-	// {
-	// 	glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-	// 	// retrieve texture number (the N in diffuse_textureN)
-	// 	std::string name = textures[i].type;
-	// 	std::string number;
-	// 	if(name == "texture_diffuse")
-	// 		number = std::to_string(diffuseNr++);
-	// 	else if(name == "texture_specular")
-	// 		number = std::to_string(specularNr++); // transfer unsigned int to string
-	// 	else if(name == "texture_normal")
-	// 		number = std::to_string(normalNr++); // transfer unsigned int to string
-	// 		else if(name == "texture_height")
-	// 		number = std::to_string(heightNr++); // transfer unsigned int to string
+	unsigned int diffuseNr  = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr   = 1;
+	unsigned int heightNr   = 1;
+	for(unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+		// retrieve texture number (the N in diffuse_textureN)
+		std::string name = textures[i].type;
+		std::string number;
+		if(name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if(name == "texture_specular")
+			number = std::to_string(specularNr++); // transfer unsigned int to string
+		else if(name == "texture_normal")
+			number = std::to_string(normalNr++); // transfer unsigned int to string
+		else if(name == "texture_height")
+			number = std::to_string(heightNr++); // transfer unsigned int to string
 
-	// 	// now set the sampler to the correct texture unit
-	// 	glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
-	// 	// and finally bind the texture
-	// 	glBindTexture(GL_TEXTURE_2D, textures[i].id);
-	// }
-	// glActiveTexture(GL_TEXTURE0); // active proper texture unit before binding
-	// glUniform1i(glGetUniformLocation(shader.ID, "texture1"), texture1);
-	// glUniform1i(glGetUniformLocation(shader.ID, "texture2"), texture2);
-	// glBindTexture(GL_TEXTURE_2D, texture1);
-	// glBindTexture(GL_TEXTURE_2D, texture2);
+		// now set the sampler to the correct texture unit
+		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
+		// and finally bind the texture
+		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+	}
 
-	math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-	float angle = glfwGetTime() * 20.0f;
-	model = math::rotate(model, math::radians(angle), math::vec3(0.0f, 0.0f, 1.0f));
-	shader.setMat4("model", model);
-	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
@@ -77,31 +63,50 @@ void	mesh::draw(shader &shader)
 
 void mesh::setupMesh()
 {
-	glGenVertexArrays(1, &this->VAO);
-	glGenBuffers(1, &this->VBO);
-	glGenBuffers(1, &this->EBO);
+    {
+        // create buffers/arrays
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glGenBuffers(1, &EBO);
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+        glBindVertexArray(VAO);
+        // load data into vertex buffers
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        // A great thing about structs is that their memory layout is sequential for all its items.
+        // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
+        // again translates to 3/2 floats which translates to a byte array.
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), &vertices[0], GL_STATIC_DRAW);  
 
-	glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(vertex), &this->vertices[0], GL_STATIC_DRAW);  
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(unsigned int), &this->indices[0], GL_STATIC_DRAW);
-
-	// vertex positions
-	glEnableVertexAttribArray(0);	
+        // set the vertex attribute pointers
+        // vertex Positions
+        glEnableVertexAttribArray(0);	
 	std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
 	std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
-	// vertex normals
-	glEnableVertexAttribArray(1);	
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Normal));
-	// vertex texture coords
-	glEnableVertexAttribArray(2);	
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Position));
+        // vertex normals
+        glEnableVertexAttribArray(1);	
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(math::vec3), (void*)offsetof(vertex, Normal));
+        // vertex texture coords
+        glEnableVertexAttribArray(2);	
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
+        // vertex tangent
+        // glEnableVertexAttribArray(3);
+        // glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Tangent));
+        // // vertex bitangent
+        // glEnableVertexAttribArray(4);
+        // glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Bitangent));
+		// // ids
+		// glEnableVertexAttribArray(5);
+		// glVertexAttribIPointer(5, 4, GL_INT, sizeof(vertex), (void*)offsetof(vertex, m_BoneIDs));
 
-	glBindVertexArray(0);
+		// // weights
+		// glEnableVertexAttribArray(6);
+		// glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_Weights));
+        glBindVertexArray(0);
+    }
 }
 
 std::ostream&	obj::operator<<(std::ostream &output, const mesh &input)
@@ -110,9 +115,9 @@ std::ostream&	obj::operator<<(std::ostream &output, const mesh &input)
 	output << "\rVertex:" << std::endl;
 	for (unsigned int i = 0; i < input.vertices.size(); i++)
 	{
-		output << input.vertices[i].Position << std::endl;
-		output << input.vertices[i].Normal << std::endl;
-		output << input.vertices[i].Texture << std::endl;
+		output << "Position: " << input.vertices[i].Position << "\t";
+		output << "Normal: " << input.vertices[i].Normal << "\t";
+		output << "Texture: " << input.vertices[i].Texture << std::endl;
 	}
 	output << "\rIndices:" << std::endl;
 	for (unsigned int i = 0; i < input.indices.size(); i++)
@@ -242,6 +247,58 @@ bool	mesh::add_face(std::string pram)
 	return true;
 }
 
+bool	mesh::add_texture(const char *name, const char *path)
+{
+	texture new_texture;
+	new_texture.id = TextureFromFile(name, path);
+	new_texture.type = "texture_diffuse";
+	new_texture.path = std::string(path) + "/" + std::string(path);
+	this->textures.push_back(new_texture);
+	return true;
+}
+
+unsigned int	mesh::TextureFromFile(const char *path, const std::string &directory)
+{
+	std::string filename = std::string(path);
+	filename = directory + '/' + filename;
+
+	std::cout << filename << std::endl;
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+		std::cout << "Format: " << (format == GL_RGBA ? "RGBA" : "RGB") << std::endl;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
+}
+
 bool	mesh::loadMesh(const char* path)
 {
 	std::string str_path = path;
@@ -327,7 +384,47 @@ bool	mesh::loadMesh(const char* path)
 		// 	std::cout << "Unknown token: " << prefix << std::endl;
 		// }
 	}
+	center_around_orgin();
 	setupMesh();
 	std::cout << "Mesh Loaded" << std::endl;
 	return true;
 }
+
+void	mesh::min_max_bounds(math::vec3& min_bound, math::vec3& max_bound)
+{
+	for (std::vector<obj::vertex>::iterator vert = this->vertices.begin(); vert != this->vertices.end();) 
+	{
+		min_bound[0] = std::min(min_bound[0], vert->Position[0]);
+		min_bound[1] = std::min(min_bound[1], vert->Position[1]);
+		min_bound[2] = std::min(min_bound[2], vert->Position[2]);
+
+		max_bound[0] = std::max(max_bound[0], vert->Position[0]);
+		max_bound[1] = std::max(max_bound[1], vert->Position[1]);
+		max_bound[2] = std::max(max_bound[2], vert->Position[2]);
+		vert++;
+	}
+}
+
+void	mesh::center_around_orgin()
+{
+	math::vec3 min_bound = {0, 0, 0};
+	math::vec3 max_bound = {0, 0, 0};
+
+	min_max_bounds(min_bound, max_bound);
+
+	// std::cout << "min : " << min_bound.v[0] << " " << min_bound.v[1] << " " << min_bound.v[2] << std::endl;
+	// std::cout << "max : " << max_bound.v[0] << " " << max_bound.v[1] << " " << max_bound.v[2] << std::endl;
+	math::vec3 center = {0, 0, 0};
+	
+	center[0] = (min_bound[0] + max_bound[0]) / 2;
+	center[1] = (min_bound[1] + max_bound[1]) / 2;
+	center[2] = (min_bound[2] + max_bound[2]) / 2;
+	// std::cout << "center : " << center.v[0] << " " << center.v[1] << " " << center.v[2] << std::endl;
+
+	for (std::vector<obj::vertex>::iterator vert = this->vertices.begin(); vert != this->vertices.end(); ++vert)  {
+		(vert->Position)[0] -= center[0];
+		(vert->Position)[1] -= center[1];
+		(vert->Position)[2] -= center[2];
+	}
+}
+

@@ -4,8 +4,7 @@ layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord;
 // layout (location = 2) in vec3 aColor;
 
-out vec3 ourColor;
-out vec2 TexCoord;
+out vec2 Texture;
 
 uniform mat4 model;
 uniform mat4 view;
