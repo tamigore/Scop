@@ -82,16 +82,20 @@ void mesh::setupMesh()
 
         // set the vertex attribute pointers
         // vertex Positions
-        glEnableVertexAttribArray(0);	
-	std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
-	std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
+        glEnableVertexAttribArray(0);
+		std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
+		std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Position));
         // vertex normals
-        glEnableVertexAttribArray(1);	
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(math::vec3), (void*)offsetof(vertex, Normal));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Normal));
         // vertex texture coords
         glEnableVertexAttribArray(2);	
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
+		// vertex color
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Color));
+
         // vertex tangent
         // glEnableVertexAttribArray(3);
         // glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Tangent));
@@ -118,6 +122,7 @@ std::ostream&	obj::operator<<(std::ostream &output, const mesh &input)
 		output << "Position: " << input.vertices[i].Position << "\t";
 		output << "Normal: " << input.vertices[i].Normal << "\t";
 		output << "Texture: " << input.vertices[i].Texture << std::endl;
+		output << "Color: " << input.vertices[i].Color << std::endl;
 	}
 	output << "\rIndices:" << std::endl;
 	for (unsigned int i = 0; i < input.indices.size(); i++)
@@ -150,8 +155,11 @@ bool	mesh::add_vertex_position(std::string curline)
 	if (this->position_indices.size() >= this->vertices.size())
 		this->vertices.push_back(vertex());
 	this->vertices[this->position_indices.size()].Position = position;
-	this->vertices[this->position_indices.size()].Normal = math::vec3(0.3f, 0.3f, 0.4f);
+	this->vertices[this->position_indices.size()].Normal = math::vec3(0.0, 0.0, 0.0);
 	this->vertices[this->position_indices.size()].Texture = math::vec2(position.x, position.y);
+	position.normalize();
+	this->vertices[this->position_indices.size()].Color = math::vec3(abs(position.x), abs(position.y), abs(position.z));
+	// this->vertices[this->position_indices.size()].Color = math::vec3(1.0, 0.0, 0.0);
 	this->position_indices.push_back(this->position_indices.size());
 	return true;
 }
@@ -385,6 +393,7 @@ bool	mesh::loadMesh(const char* path)
 		// }
 	}
 	center_around_orgin();
+	facesDuplicateVertexes();
 	setupMesh();
 	std::cout << "Mesh Loaded" << std::endl;
 	return true;
@@ -428,3 +437,51 @@ void	mesh::center_around_orgin()
 	}
 }
 
+void	mesh::facesDuplicateVertexes()
+{
+	std::map<unsigned int, unsigned int> nbPosIndex;
+	math::vec3 color = {0.0, 0.0, 0.0};
+	std::vector<math::vec2> textures = {
+		{0.0, 0.0},
+		{0.0, 1.0},
+		{1.0, 0.0},
+		{1.0, 1.0}
+	};
+	int face = 0;
+	for (std::vector<unsigned int>::iterator it = this->indices.begin(); it != this->indices.end(); ++it)
+	{
+		if (nbPosIndex.find(*it) == nbPosIndex.end())
+		{
+			nbPosIndex[*it] = 1;
+			this->vertices[*it].Color = color;
+			this->vertices[*it].Texture = textures[face % 4];
+		}
+		else
+		{
+			this->vertices.push_back(this->vertices[*it]);
+			*it = this->vertices.size() - 1;
+			nbPosIndex[*it] += 1;
+			this->vertices[*it].Color = color;
+			this->vertices[*it].Texture = textures[face % 4];
+		}
+		face++;
+		if (face % 3 == 0)
+		{
+			if (color.x >= 1.0)
+				color.x = 0.0;
+			color.x += 0.1;
+		}
+		if (face % 6 == 0)
+		{
+			if (color.y >= 1.0)
+				color.y = 0.0;
+			color.y += 0.1;
+		}
+		if (face % 9 == 0)
+		{
+			if (color.z >= 1.0)
+				color.z = 0.0;
+			color.z += 0.1;
+		}
+	}
+}

@@ -7,6 +7,8 @@
 #include <vector>
 #include <GLFW/glfw3.h>
 #include <iostream>
+// #include <GLES/gl.h>
+// #include <GL/gl.h>
 
 
 // void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -461,69 +463,16 @@ int main(int ac, char **av)
 	mesh.add_texture("awesomeface.png", "srcs/objects/textures");
 	std::cout << mesh << std::endl;
 
-	// load and create a texture 
-	// unsigned int texture1, texture2;
-
-	// // texture 1
-	// glGenTextures(1, &texture1);
-	// glBindTexture(GL_TEXTURE_2D, texture1);
-	// // set the texture wrapping parameters
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// // set texture filtering parameters
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// // load image, create texture and generate mipmaps
-	// int width, height, nrChannels;
-	// // stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	// unsigned char *data = stbi_load("srcs/objects/textures/container.png", &width, &height, &nrChannels, 0);
-	// if (data)
-	// {
-	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	// 	glGenerateMipmap(GL_TEXTURE_2D);
-	// }
-	// else
-	// {
-	// 	std::cout << "Failed to load texture" << std::endl;
-	// }
-	// stbi_image_free(data);
-
-	// // texture 2
-	// glGenTextures(1, &texture2);
-	// glBindTexture(GL_TEXTURE_2D, texture2);
-	// // set the texture wrapping parameters
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// // set texture filtering parameters
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// // load image, create texture and generate mipmaps
-	// data = stbi_load("srcs/objects/textures/awesomeface.png", &width, &height, &nrChannels, 0);
-	// if (data)
-	// {
-	// 	// note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
-	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	// 	glGenerateMipmap(GL_TEXTURE_2D);
-	// }
-	// else
-	// {
-	// 	std::cout << "Failed to load texture" << std::endl;
-	// }
-	// stbi_image_free(data);
-
-	// activate shader and tell opengl for each sampler to which texture unit it belongs
-	// ourShader.use();
-	// ourShader.setInt("texture1", 0);
-	// ourShader.setInt("texture2", 1);
-
-	// background color
-	// bind textures on corresponding texture units
-	// glActiveTexture(GL_TEXTURE0);
-	// glBindTexture(GL_TEXTURE_2D, texture1);
-	// glActiveTexture(GL_TEXTURE1);
-	// glBindTexture(GL_TEXTURE_2D, texture2);
-
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+	// std::vector<float> Color;
+	// for (int i = 0; i < mesh.vertices.size(); i++)
+	// {
+	// 	Color.push_back(1.0f);
+	// 	Color.push_back(0.0f);
+	// 	Color.push_back(0.0f);
+	// }
+	// glColorPointer(3, GL_FLOAT, 8 * sizeof(float), Color.data());
  
 	// render loop
 	while (!glfwWindowShouldClose(window))
@@ -549,7 +498,7 @@ int main(int ac, char **av)
 		math::mat4 view = camera.GetViewMatrix();
 		ourShader.setMat4("view", view);
 
-		// ourShader.setFloat("mixValue", mixValue);
+		ourShader.setFloat("mixValue", mixValue);
 		ourShader.setBool("useColor", useColor);
 
 		math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first

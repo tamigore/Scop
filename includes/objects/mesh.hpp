@@ -2,6 +2,7 @@
 # define __MESH_HPP__
 
 # include <fstream>
+# include <map>
 # include <vector>
 
 # include "vertex.hpp"
@@ -55,6 +56,7 @@ class mesh
 		bool	add_texture(const char *name, const char *path);
 		void	min_max_bounds(math::vec3& min_bound, math::vec3& max_bound);
 		void	center_around_orgin();
+		void	facesDuplicateVertexes();
 };	
 
 std::ostream&	operator<<(std::ostream &o, const mesh &rhs);
