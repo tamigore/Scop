@@ -12,6 +12,9 @@
 # include "shader.hpp"
 # include "../utils.hpp"
 
+#include "../glad/glad.h"
+#include <GLFW/glfw3.h>
+
 namespace obj
 {
 
@@ -30,7 +33,7 @@ class mesh
 
 	public:
 		std::string					name;
-		// std::vector<math::vec3>		vertices;
+		// std::vector<math::vec3>	vertices;
 		// std::vector<math::vec3> 	normal;
 		// std::vector<math::vec2> 	textures;
 		// std::vector<math::vec3>	index_vertices;
@@ -43,7 +46,6 @@ class mesh
         std::vector<unsigned int>	texture_indices;
         std::vector<texture>		textures;
         std::vector<face>			faces;
-        // std::vector<math::vec3>	triangle;
 		// material					m_material;
 
 		mesh();

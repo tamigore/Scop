@@ -1,10 +1,8 @@
 # define STB_IMAGE_IMPLEMENTATION
+
 # include "../../includes/stb_image.h"
 
 #include "../../includes/objects/mesh.hpp"
-#include "../glad/glad.h"
-
-#include <GLFW/glfw3.h>
 
 using namespace obj;
 
