@@ -50,7 +50,7 @@ int main(int ac, char **av)
 #endif
 
 	// glfw window creation
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Scop", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -203,7 +203,7 @@ int main(int ac, char **av)
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
-    {
+	{
 		// per-frame time logic
 		float currentFrame = static_cast<float>(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;

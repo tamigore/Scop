@@ -25,25 +25,23 @@ mesh::~mesh() {}
 
 void	mesh::draw(shader &shader)
 {
-	// bind appropriate textures
 	unsigned int diffuseNr  = 1;
 	unsigned int specularNr = 1;
 	unsigned int normalNr   = 1;
 	unsigned int heightNr   = 1;
 	for(unsigned int i = 0; i < textures.size(); i++)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-		// retrieve texture number (the N in diffuse_textureN)
+		glActiveTexture(GL_TEXTURE0 + i);
 		std::string name = textures[i].type;
 		std::string number;
 		if(name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
 		else if(name == "texture_specular")
-			number = std::to_string(specularNr++); // transfer unsigned int to string
+			number = std::to_string(specularNr++);
 		else if(name == "texture_normal")
-			number = std::to_string(normalNr++); // transfer unsigned int to string
+			number = std::to_string(normalNr++);
 		else if(name == "texture_height")
-			number = std::to_string(heightNr++); // transfer unsigned int to string
+			number = std::to_string(heightNr++);
 
 		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
@@ -61,54 +59,42 @@ void	mesh::draw(shader &shader)
 
 void mesh::setupMesh()
 {
-    {
-        // create buffers/arrays
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &EBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
-        glBindVertexArray(VAO);
-        // load data into vertex buffers
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        // A great thing about structs is that their memory layout is sequential for all its items.
-        // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-        // again translates to 3/2 floats which translates to a byte array.
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), &vertices[0], GL_STATIC_DRAW);  
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), &vertices[0], GL_STATIC_DRAW);  
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
-        // set the vertex attribute pointers
-        // vertex Positions
-        glEnableVertexAttribArray(0);
-		std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
-		std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Position));
-        // vertex normals
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Normal));
-        // vertex texture coords
-        glEnableVertexAttribArray(2);	
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
-		// vertex color
-        glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Color));
+	glEnableVertexAttribArray(0);
+	std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
+	std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Position));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Normal));
+	glEnableVertexAttribArray(2);	
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Color));
 
-        // vertex tangent
-        // glEnableVertexAttribArray(3);
-        // glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Tangent));
-        // // vertex bitangent
-        // glEnableVertexAttribArray(4);
-        // glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Bitangent));
-		// // ids
-		// glEnableVertexAttribArray(5);
-		// glVertexAttribIPointer(5, 4, GL_INT, sizeof(vertex), (void*)offsetof(vertex, m_BoneIDs));
+	// vertex tangent
+	// glEnableVertexAttribArray(3);
+	// glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Tangent));
+	// // vertex bitangent
+	// glEnableVertexAttribArray(4);
+	// glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Bitangent));
+	// // ids
+	// glEnableVertexAttribArray(5);
+	// glVertexAttribIPointer(5, 4, GL_INT, sizeof(vertex), (void*)offsetof(vertex, m_BoneIDs));
 
-		// // weights
-		// glEnableVertexAttribArray(6);
-		// glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_Weights));
-        glBindVertexArray(0);
-    }
+	// // weights
+	// glEnableVertexAttribArray(6);
+	// glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_Weights));
+	glBindVertexArray(0);
 }
 
 std::ostream&	obj::operator<<(std::ostream &output, const mesh &input)
@@ -153,11 +139,9 @@ bool	mesh::add_vertex_position(std::string curline)
 	if (this->position_indices.size() >= this->vertices.size())
 		this->vertices.push_back(vertex());
 	this->vertices[this->position_indices.size()].Position = position;
-	this->vertices[this->position_indices.size()].Normal = math::vec3(0.0, 0.0, 0.0);
-	this->vertices[this->position_indices.size()].Texture = math::vec2(position.x, position.y);
-	position.normalize();
-	this->vertices[this->position_indices.size()].Color = math::vec3(abs(position.x), abs(position.y), abs(position.z));
-	// this->vertices[this->position_indices.size()].Color = math::vec3(1.0, 0.0, 0.0);
+	this->vertices[this->position_indices.size()].Normal = math::vec3(0.0);
+	this->vertices[this->position_indices.size()].Texture = math::vec2(0.0);
+	this->vertices[this->position_indices.size()].Color = math::vec3(0.0);
 	this->position_indices.push_back(this->position_indices.size());
 	return true;
 }
