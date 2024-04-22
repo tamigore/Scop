@@ -12,8 +12,9 @@
 
 bool	rotate = true;
 bool	useColor = true;
-float	mixValue = 0.2f;
+bool	skybox_active = false;
 
+float	mixValue = 0.2f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -240,31 +241,34 @@ int main(int ac, char **av)
 		// draw mesh
 		mesh.draw(ourShader);
 
-		// draw skybox as last
-		glDepthFunc(GL_LEQUAL);
-		glDepthMask(GL_FALSE);
+		if (skybox_active)
+		{
+			// draw skybox as last
+			glDepthFunc(GL_LEQUAL);
+			glDepthMask(GL_FALSE);
 
-		skyboxShader.use();
-		view[3][0] = 0;
-		view[3][1] = 0;// a.x a.y a.z 0
-		view[3][2] = 0;// b.x b.y b.z 0
-		view[3][3] = 0;// c.x c.y c.z 0
-		view[0][3] = 0;// 0   0   0   0
-		view[1][3] = 0;
-		view[2][3] = 0;
-		glUniformMatrix4fv(glGetUniformLocation(skyboxShader.ID, "view"), 1, GL_FALSE, &view[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(skyboxShader.ID, "projection"), 1, GL_FALSE, &projection[0][0]);
+			skyboxShader.use();
+			view[3][0] = 0;
+			view[3][1] = 0;// a.x a.y a.z 0
+			view[3][2] = 0;// b.x b.y b.z 0
+			view[3][3] = 0;// c.x c.y c.z 0
+			view[0][3] = 0;// 0   0   0   0
+			view[1][3] = 0;
+			view[2][3] = 0;
+			glUniformMatrix4fv(glGetUniformLocation(skyboxShader.ID, "view"), 1, GL_FALSE, &view[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(skyboxShader.ID, "projection"), 1, GL_FALSE, &projection[0][0]);
 
-		skyboxShader.use();
-		skyboxShader.setMat4("projection", projection);
-		skyboxShader.setMat4("view", view);
-	
-		glBindVertexArray(skyboxVAO);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		glDepthMask(GL_TRUE);
+			skyboxShader.use();
+			skyboxShader.setMat4("projection", projection);
+			skyboxShader.setMat4("view", view);
+		
+			glBindVertexArray(skyboxVAO);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+			glDepthMask(GL_TRUE);
+		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -278,6 +282,7 @@ int main(int ac, char **av)
 
 bool r_pressed = false;
 bool c_pressed = false;
+bool b_pressed = false;
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow *window)
@@ -328,6 +333,17 @@ void processInput(GLFWwindow *window)
 	{
 		r_pressed = false;
 		rotate = !rotate;
+		std::cout << "rotate: " << rotate << std::endl;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+	{
+		b_pressed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE && b_pressed)
+	{
+		b_pressed = false;
+		skybox_active = !skybox_active;
 		std::cout << "rotate: " << rotate << std::endl;
 	}
 }
