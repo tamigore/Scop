@@ -1,4 +1,8 @@
+<<<<<<< HEAD:srcs/model/material.cpp
 #include "../../includes/model/material.hpp"
+=======
+#include "../../includes/objects/material.hpp"
+>>>>>>> Final:srcs/objects/material.cpp
 
 using namespace obj;
 
