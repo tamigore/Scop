@@ -16,5 +16,4 @@ void main()
 		FragColor = vec4(Color, 1.0f);
 	else
 		FragColor = mix(texture(texture_diffuse1, Texture), texture(texture_diffuse2, Texture), texture(texture_diffuse2, Texture).a * mixValue);
-
 }

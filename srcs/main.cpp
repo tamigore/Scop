@@ -283,13 +283,13 @@ void processInput(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(obj::FORWARD, deltaTime);
+		camera.ProcessKeyboard(obj::FORWARD, deltaTime * 5);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(obj::BACKWARD, deltaTime);
+		camera.ProcessKeyboard(obj::BACKWARD, deltaTime * 5);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(obj::LEFT, deltaTime);
+		camera.ProcessKeyboard(obj::LEFT, deltaTime * 5);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(obj::RIGHT, deltaTime);
+		camera.ProcessKeyboard(obj::RIGHT, deltaTime * 5);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
 	{

@@ -188,8 +188,7 @@ bool	mesh::add_vertex_normal(std::string curline)
 	normal.z = std::stof(tokens[2]);
 	if (this->normal_indices.size() >= this->vertices.size())
 	{
-		std::cout << "Error: Normal index out of range" << std::endl;
-		return false;
+		this->vertices.push_back(vertex());
 	}
 	this->vertices[this->normal_indices.size()].Normal = normal;
 	this->normal_indices.push_back(this->normal_indices.size());	
@@ -204,7 +203,14 @@ bool	mesh::add_face(std::string pram)
 	for (unsigned int i = 0; i < tokens.size(); i++)
 	{
 		std::vector<std::string> face_tokens;
-		if (tokens[i].find("/") != std::string::npos)
+		if (tokens[i].find("//") != std::string::npos)
+		{
+			split(tokens[i], face_tokens, "//");
+			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
+			newface.m_normal_index.push_back(0);
+			newface.m_texture_index.push_back(std::stoul(face_tokens[1]));
+		}
+		else if (tokens[i].find("/") != std::string::npos)
 		{
 			split(tokens[i], face_tokens, "/");
 			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
@@ -213,12 +219,6 @@ bool	mesh::add_face(std::string pram)
 				newface.m_texture_index.push_back(std::stoul(face_tokens[2]));
 			else
 				newface.m_texture_index.push_back(0);
-		}
-		else if (tokens[i].find("//") != std::string::npos)
-		{
-			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
-			newface.m_normal_index.push_back(0);
-			newface.m_texture_index.push_back(std::stoul(face_tokens[1]));
 		}
 		else
 		{
