@@ -76,7 +76,7 @@ int main(int ac, char **av)
 	glEnable(GL_DEPTH_TEST);
 
 	// build and compile our shader zprogram
-	obj::shader ourShader("srcs/objects/textures/texture.vs", "srcs/objects/textures/texture.fs", nullptr);
+	obj::shader ourShader("srcs/textures/texture.vs", "srcs/textures/texture.fs", nullptr);
 
 	obj::mesh mesh;
 	if (!mesh.loadMesh(av[1]))
@@ -84,12 +84,12 @@ int main(int ac, char **av)
 		std::cout << "Failed to load mesh" << std::endl;
 		return -1;
 	}
-	mesh.add_texture("container.png", "srcs/objects/textures");
-	mesh.add_texture("awesomeface.png", "srcs/objects/textures");
+	mesh.add_texture("container.png", "srcs/textures");
+	mesh.add_texture("pony.png", "srcs/textures");
 	// std::cout << mesh << std::endl;
 
 	// SKY BOX
-	obj::shader skyboxShader("srcs/objects/skybox/skybox.vs", "srcs/objects/skybox/skybox.fs", nullptr);
+	obj::shader skyboxShader("srcs/skybox/skybox.vs", "srcs/skybox/skybox.fs", nullptr);
 
 	// COORDINATES
 	float skyboxVertices[] = {
@@ -127,21 +127,13 @@ int main(int ac, char **av)
 	};
 
 	// // SKY BOX IMAGES
-	// std::vector<const char *> files = {
-	// 	"srcs/objects/skybox/right.png",
-	// 	"srcs/objects/skybox/left.png",
-	// 	"srcs/objects/skybox/top.png",
-	// 	"srcs/objects/skybox/bottom.png",
-	// 	"srcs/objects/skybox/front.png",
-	// 	"srcs/objects/skybox/back.png"
-	// };
 	std::vector<const char *> files = {
-		"srcs/objects/skybox/px.png",
-		"srcs/objects/skybox/nx.png",
-		"srcs/objects/skybox/py.png",
-		"srcs/objects/skybox/ny.png",
-		"srcs/objects/skybox/pz.png",
-		"srcs/objects/skybox/nz.png"
+		"srcs/skybox/right.jpg",
+		"srcs/skybox/left.jpg",
+		"srcs/skybox/top.jpg",
+		"srcs/skybox/bottom.jpg",
+		"srcs/skybox/front.jpg",
+		"srcs/skybox/back.jpg"
 	};
 
 	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
@@ -182,11 +174,11 @@ int main(int ac, char **av)
 			(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 				0,
-				GL_RGBA,
+				GL_RGB,
 				width,
 				height,
 				0,
-				GL_RGBA,
+				GL_RGB,
 				GL_UNSIGNED_BYTE,
 				data
 			);
