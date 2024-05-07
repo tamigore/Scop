@@ -18,7 +18,7 @@ float	mixValue = 0.2f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow *window);
+void processInput(GLFWwindow *window, math::mat4 &model);
 
 // settings
 const unsigned int SCR_WIDTH = 1920;
@@ -33,6 +33,9 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+float rotateX = 0.0f;
+float rotateY = 0.0f;
 
 int main(int ac, char **av)
 {
@@ -193,6 +196,7 @@ int main(int ac, char **av)
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
+	math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 	// render loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -202,7 +206,7 @@ int main(int ac, char **av)
 		lastFrame = currentFrame;
 
 		// input
-		processInput(window);
+		processInput(window, model);
 
 		// clear color buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -219,15 +223,15 @@ int main(int ac, char **av)
 		ourShader.setFloat("mixValue", mixValue);
 		ourShader.setBool("useColor", useColor);
 
-		math::mat4 model = math::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 
 		if (rotate)
 		{
-			float angle = glfwGetTime() * 20.0f;
-			math::vec3 axis = math::vec3(1.0f, 1.3f, 0.0f);
-			axis.normalize();
-			model = math::rotate(model, math::radians(angle), axis);
+			rotateX += 1.0f;
+			rotateY += 1.0f;
 		}
+		math::mat4 rx = model.rotate(math::radians(rotateX), math::vec3(1.0f, 0.0f, 0.0f));
+		math::mat4 ry = model.rotate(math::radians(rotateY), math::vec3(0.0f, 1.0f, 0.0f));
+		model = rx * ry;
 		ourShader.setMat4("model", model);
 
 		// draw mesh
@@ -291,7 +295,7 @@ bool c_pressed = false;
 bool b_pressed = false;
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-void processInput(GLFWwindow *window)
+void processInput(GLFWwindow *window, math::mat4 &model)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -355,19 +359,19 @@ void processInput(GLFWwindow *window)
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		(1.0f);
+		rotateX += 1.0f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		camera.ProcessMouseScroll(-1.0f);
+		rotateX -= 1.0f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
-		camera.ProcessMouseMovement(-1.0f, 0.0f, false);
+		rotateY += 1.0f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		camera.ProcessMouseMovement(1.0f, 0.0f, false);
+		rotateY -= 1.0f;
 	}
 }
 
