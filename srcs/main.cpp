@@ -271,10 +271,16 @@ int main(int ac, char **av)
 	glDeleteBuffers(1, &mesh.VBO);
 	glDeleteBuffers(1, &mesh.EBO);
 
+	glDeleteVertexArrays(1, &skyboxVAO);
+	glDeleteBuffers(1, &skyboxVBO);
+	glDeleteBuffers(1, &skyboxEBO);
+
 	glDeleteTextures(1, &mesh.textures[0].id);
 	glDeleteTextures(1, &mesh.textures[1].id);
 	glDeleteTextures(1, &cubemapTexture);
 	glDeleteProgram(skyboxShader.ID);
+	glDeleteProgram(ourShader.ID);
+
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	glfwTerminate();
 	return 0;
@@ -345,6 +351,23 @@ void processInput(GLFWwindow *window)
 		b_pressed = false;
 		skybox_active = !skybox_active;
 		std::cout << "rotate: " << rotate << std::endl;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		(1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		camera.ProcessMouseScroll(-1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		camera.ProcessMouseMovement(-1.0f, 0.0f, false);
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		camera.ProcessMouseMovement(1.0f, 0.0f, false);
 	}
 }
 
