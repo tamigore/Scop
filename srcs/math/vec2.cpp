@@ -40,14 +40,6 @@ vec2::vec2(const float* src)
 
 vec2::~vec2() {}
 
-float*	vec2::getTab() const
-{
-	float* tab = new float(2);
-	tab[0] = this->x;
-	tab[1] = this->y;
-	return (tab);
-}
-
 vec2&	vec2::operator=(const vec2 &rhs) 
 {
 	this->x = rhs.x;

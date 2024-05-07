@@ -20,8 +20,6 @@ class vec2
 		vec2(const float* src);
 		~vec2();
 
-		float*	getTab() const;
-
 		vec2&	operator=(const vec2 &rhs);
 		vec2&	operator=(const float &rhs);
 		vec2&	operator=(const float* rhs);

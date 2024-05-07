@@ -61,16 +61,6 @@ vec4::vec4(const float* src): vec4::vec4()
 
 vec4::~vec4() {}
 
-float*	vec4::getTab() const
-{
-	float* tab = new float(4);
-	tab[0] = this->x;
-	tab[1] = this->y;
-	tab[2] = this->z;
-	tab[3] = this->w;
-	return (tab);
-}
-
 vec4&	vec4::operator=(const vec4 &rhs) 
 {
 	this->x = rhs.x;

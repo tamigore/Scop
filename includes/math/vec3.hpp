@@ -21,8 +21,6 @@ class vec3
 		vec3(const float* src);
 		~vec3();
 
-		float*	getTab() const;
-
 		vec3&	operator=(const vec3 &rhs);
 		vec3&	operator=(const float &rhs);
 		vec3&	operator=(const float* rhs);

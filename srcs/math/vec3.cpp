@@ -51,15 +51,6 @@ vec3::vec3(const float* src)
 
 vec3::~vec3() {}
 
-float*	vec3::getTab() const
-{
-	float* tab = new float(3);
-	tab[0] = this->x;
-	tab[1] = this->y;
-	tab[2] = this->z;
-	return (tab);
-}
-
 vec3&	vec3::operator=(const vec3 &rhs) 
 {
 	this->x = rhs.x;

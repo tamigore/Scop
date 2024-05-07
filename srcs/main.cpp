@@ -282,8 +282,8 @@ int main(int ac, char **av)
 	glDeleteBuffers(1, &skyboxVBO);
 	glDeleteBuffers(1, &skyboxEBO);
 
-	glDeleteTextures(1, &mesh.textures[0].id);
-	glDeleteTextures(1, &mesh.textures[1].id);
+	glDeleteTextures(1, &mesh.m_textures[0].m_id);
+	glDeleteTextures(1, &mesh.m_textures[1].m_id);
 	glDeleteTextures(1, &cubemapTexture);
 
 	glDeleteProgram(skyboxShader.ID);
@@ -292,9 +292,6 @@ int main(int ac, char **av)
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	glfwTerminate();
 
-	while (1) {
-		sleep(1);
-	}
 	return 0;
 }
 

@@ -33,14 +33,14 @@ class mesh
 	public:
 		unsigned int VAO, VBO, EBO;
 
-		std::string					name;
-        std::vector<vertex>			vertices;
-        std::vector<unsigned int>	indices;
-        std::vector<unsigned int>	position_indices;
-        std::vector<unsigned int>	normal_indices;
-        std::vector<unsigned int>	texture_indices;
-        std::vector<texture>		textures;
-        std::vector<face>			faces;
+		std::string					m_name;
+        std::vector<vertex>			m_vertices;
+        std::vector<unsigned int>	m_indices;
+        std::vector<unsigned int>	m_position_indices;
+        std::vector<unsigned int>	m_normal_indices;
+        std::vector<unsigned int>	m_texture_indices;
+        std::vector<texture>		m_textures;
+        std::vector<face>			m_faces;
 
 		mesh();
 		mesh(char* path);

@@ -6,8 +6,6 @@
 
 using namespace obj;
 
-#define OBJL_CONSOLE_OUTPUT
-
 mesh::mesh() {}
 
 mesh::mesh(char* path)
@@ -29,10 +27,10 @@ void	mesh::draw(shader &shader)
 	unsigned int specularNr = 1;
 	unsigned int normalNr   = 1;
 	unsigned int heightNr   = 1;
-	for(unsigned int i = 0; i < textures.size(); i++)
+	for(unsigned int i = 0; i < m_textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
-		std::string name = textures[i].type;
+		std::string name = m_textures[i].m_type;
 		std::string number;
 		if(name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
@@ -43,17 +41,14 @@ void	mesh::draw(shader &shader)
 		else if(name == "texture_height")
 			number = std::to_string(heightNr++);
 
-		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
-		// and finally bind the texture
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
 	}
 
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(m_indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
 }
 
@@ -65,35 +60,20 @@ void mesh::setupMesh()
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), &vertices[0], GL_STATIC_DRAW);  
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(vertex), &m_vertices[0], GL_STATIC_DRAW);  
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), &m_indices[0], GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	std::cout << "Vertex offset Normal : " << offsetof(vertex, Normal) << " vs " << 3 * sizeof(float) << std::endl;
-	std::cout << "Vertex offset Texture : " << offsetof(vertex, Texture) << std::endl;
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_position));
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_normal));
 	glEnableVertexAttribArray(2);	
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Texture));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_texture));
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Color));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_color));
 
-	// vertex tangent
-	// glEnableVertexAttribArray(3);
-	// glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Tangent));
-	// // vertex bitangent
-	// glEnableVertexAttribArray(4);
-	// glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, Bitangent));
-	// // ids
-	// glEnableVertexAttribArray(5);
-	// glVertexAttribIPointer(5, 4, GL_INT, sizeof(vertex), (void*)offsetof(vertex, m_BoneIDs));
-
-	// // weights
-	// glEnableVertexAttribArray(6);
-	// glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)offsetof(vertex, m_Weights));
 	glBindVertexArray(0);
 }
 
@@ -101,24 +81,24 @@ std::ostream&	obj::operator<<(std::ostream &output, const mesh &input)
 {
 	output << "Mesh:" << std::endl;
 	output << "\rVertex:" << std::endl;
-	for (unsigned int i = 0; i < input.vertices.size(); i++)
+	for (unsigned int i = 0; i < input.m_vertices.size(); i++)
 	{
-		output << "Position: " << input.vertices[i].Position << "\t";
-		output << "Normal: " << input.vertices[i].Normal << "\t";
-		output << "Texture: " << input.vertices[i].Texture << std::endl;
-		output << "Color: " << input.vertices[i].Color << std::endl;
+		output << "Position: " << input.m_vertices[i].m_position << "\t";
+		output << "Normal: " << input.m_vertices[i].m_normal << "\t";
+		output << "Texture: " << input.m_vertices[i].m_texture << std::endl;
+		output << "Color: " << input.m_vertices[i].m_color << std::endl;
 	}
 	output << "\rIndices:" << std::endl;
-	for (unsigned int i = 0; i < input.indices.size(); i++)
+	for (unsigned int i = 0; i < input.m_indices.size(); i++)
 	{
-		output << input.indices[i] << " ";
+		output << input.m_indices[i] << " ";
 	}
 	output << std::endl;
 	output << "\rTexture:" << std::endl;
-	for (unsigned int i = 0; i < input.textures.size(); i++)
+	for (unsigned int i = 0; i < input.m_textures.size(); i++)
 	{
-		output << "\r\rid: " << input.textures[i].id << std::endl;	
-		output << "\r\rtype: " << input.textures[i].type << std::endl;	
+		output << "\r\rid: " << input.m_textures[i].m_id << std::endl;	
+		output << "\r\rtype: " << input.m_textures[i].m_type << std::endl;	
 	}
 	return output;
 }
@@ -136,13 +116,13 @@ bool	mesh::add_vertex_position(std::string curline)
 	position.x = std::stof(tokens[0]);
 	position.y = std::stof(tokens[1]);
 	position.z = std::stof(tokens[2]);
-	if (this->position_indices.size() >= this->vertices.size())
-		this->vertices.push_back(vertex());
-	this->vertices[this->position_indices.size()].Position = position;
-	this->vertices[this->position_indices.size()].Normal = math::vec3(0.0);
-	this->vertices[this->position_indices.size()].Texture = math::vec2(0.0);
-	this->vertices[this->position_indices.size()].Color = math::vec3(0.0);
-	this->position_indices.push_back(this->position_indices.size());
+	if (this->m_position_indices.size() >= this->m_vertices.size())
+		this->m_vertices.push_back(vertex());
+	this->m_vertices[this->m_position_indices.size()].m_position = position;
+	this->m_vertices[this->m_position_indices.size()].m_normal = math::vec3(0.0);
+	this->m_vertices[this->m_position_indices.size()].m_texture = math::vec2(0.0);
+	this->m_vertices[this->m_position_indices.size()].m_color = math::vec3(0.0);
+	this->m_position_indices.push_back(this->m_position_indices.size());
 	return true;
 }
 
@@ -163,13 +143,10 @@ bool	mesh::add_vertex_texture(std::string curline)
 		std::cout << "Error: Texture coordinates are not normalized" << std::endl;
 		return false;
 	}
-	if (this->texture_indices.size() >= this->vertices.size())
-	{
-		std::cout << "Error: Normal index out of range" << std::endl;
-		return false;
-	}
-	this->vertices[this->texture_indices.size()].Texture = texture;
-	this->texture_indices.push_back(this->texture_indices.size());
+	if (this->m_texture_indices.size() >= this->m_vertices.size())
+		this->m_vertices.push_back(vertex());
+	this->m_vertices[this->m_texture_indices.size()].m_texture = texture;
+	this->m_texture_indices.push_back(this->m_texture_indices.size());
 	return true;
 }
 
@@ -186,18 +163,16 @@ bool	mesh::add_vertex_normal(std::string curline)
 	normal.x = std::stof(tokens[0]);
 	normal.y = std::stof(tokens[1]);
 	normal.z = std::stof(tokens[2]);
-	if (this->normal_indices.size() >= this->vertices.size())
-	{
-		this->vertices.push_back(vertex());
-	}
-	this->vertices[this->normal_indices.size()].Normal = normal;
-	this->normal_indices.push_back(this->normal_indices.size());	
+	if (this->m_normal_indices.size() >= this->m_vertices.size())
+		this->m_vertices.push_back(vertex());
+	this->m_vertices[this->m_normal_indices.size()].m_normal = normal;
+	this->m_normal_indices.push_back(this->m_normal_indices.size());	
 	return true;
 }
 
 bool	mesh::add_face(std::string pram)
 {
-	obj::face newface;
+	obj::face face;
 	std::vector<std::string> tokens;
 	split(pram, tokens, " ");
 	for (unsigned int i = 0; i < tokens.size(); i++)
@@ -206,44 +181,44 @@ bool	mesh::add_face(std::string pram)
 		if (tokens[i].find("//") != std::string::npos)
 		{
 			split(tokens[i], face_tokens, "//");
-			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
-			newface.m_normal_index.push_back(0);
-			newface.m_texture_index.push_back(std::stoul(face_tokens[1]));
+			face.m_vertice_index.push_back(std::stoul(face_tokens[0]));
+			face.m_normal_index.push_back(0);
+			face.m_texture_index.push_back(std::stoul(face_tokens[1]));
 		}
 		else if (tokens[i].find("/") != std::string::npos)
 		{
 			split(tokens[i], face_tokens, "/");
-			newface.m_vertice_index.push_back(std::stoul(face_tokens[0]));
-			newface.m_normal_index.push_back(std::stoul(face_tokens[1]));
+			face.m_vertice_index.push_back(std::stoul(face_tokens[0]));
+			face.m_normal_index.push_back(std::stoul(face_tokens[1]));
 			if (!face_tokens[2].empty())
-				newface.m_texture_index.push_back(std::stoul(face_tokens[2]));
+				face.m_texture_index.push_back(std::stoul(face_tokens[2]));
 			else
-				newface.m_texture_index.push_back(0);
+				face.m_texture_index.push_back(0);
 		}
 		else
 		{
-			newface.m_vertice_index.push_back(std::stoul(tokens[i]));
-			newface.m_normal_index.push_back(0);
-			newface.m_texture_index.push_back(0);
+			face.m_vertice_index.push_back(std::stoul(tokens[i]));
+			face.m_normal_index.push_back(0);
+			face.m_texture_index.push_back(0);
 		}
 	}
-	this->faces.push_back(newface);
-	for (unsigned int i = 0; i < newface.m_vertice_index.size() - 2; i++)
+	this->m_faces.push_back(face);
+	for (unsigned int i = 0; i < face.m_vertice_index.size() - 2; i++)
 	{
-		this->indices.push_back(newface.m_vertice_index[0] - 1);
-		this->indices.push_back(newface.m_vertice_index[i + 1] - 1);
-		this->indices.push_back(newface.m_vertice_index[i + 2] - 1);
+		this->m_indices.push_back(face.m_vertice_index[0] - 1);
+		this->m_indices.push_back(face.m_vertice_index[i + 1] - 1);
+		this->m_indices.push_back(face.m_vertice_index[i + 2] - 1);
 	}
 	return true;
 }
 
 bool	mesh::add_texture(const char *name, const char *path)
 {
-	texture new_texture;
-	new_texture.id = TextureFromFile(name, path);
-	new_texture.type = "texture_diffuse";
-	new_texture.path = std::string(path) + "/" + std::string(path);
-	this->textures.push_back(new_texture);
+	texture texture;
+	texture.m_id = TextureFromFile(name, path);
+	texture.m_type = "texture_diffuse";
+	texture.m_path = std::string(path) + "/" + std::string(path);
+	this->m_textures.push_back(texture);
 	return true;
 }
 
@@ -267,7 +242,6 @@ unsigned int	mesh::TextureFromFile(const char *path, const std::string &director
 			format = GL_RGB;
 		else if (nrComponents == 4)
 			format = GL_RGBA;
-		std::cout << "Format: " << (format == GL_RGBA ? "RGBA" : "RGB") << std::endl;
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -295,7 +269,8 @@ bool	mesh::loadMesh(const char* path)
 	if (str_path.empty() || str_path.size() < 4 || str_path.substr(str_path.size() - 4, 4) != ".obj")
 		return false;
 	std::ifstream file(str_path);
-	if (!file.is_open()) {
+	if (!file.is_open())
+	{
 		std::cout << "Error: Could not open file " << str_path << std::endl;
 		return false;
 	}
@@ -307,12 +282,9 @@ bool	mesh::loadMesh(const char* path)
 			continue;
 		std::string prefix = firstToken(curline);
 		std::string param = tail(curline);
-		#ifdef OBJL_CONSOLE_OUTPUT
-		std::cout << "\r- " << prefix << " " << param << std::endl;
-		#endif
 		if (prefix == "o")
 		{
-			this->name = param;
+			this->m_name = param;
 		}
 		else if (prefix == "v")
 		{
@@ -334,45 +306,6 @@ bool	mesh::loadMesh(const char* path)
 			if (!add_face(param))
 				return false;
 		}
-		// else if (prefix == "g")
-		// {
-		// 	#ifdef OBJL_CONSOLE_OUTPUT
-		// 	std::cout << "g" << std::endl;
-		// 	#endif
-		// }
-		// else if (prefix == "usemtl")
-		// {
-		// 	#ifdef OBJL_CONSOLE_OUTPUT
-		// 	std::cout << "usemtl" << std::endl;
-		// 	#endif
-		// }
-		// else if (prefix == "mtllib")
-		// {
-		// 	#ifdef OBJL_CONSOLE_OUTPUT
-		// 	std::cout << "mtllib" << std::endl;
-		// 	#endif
-		// }
-		// else if (prefix == "s")
-		// {
-		// 	#ifdef OBJL_CONSOLE_OUTPUT
-		// 	if (tail(curline) == "off")
-		// 	{
-		// 		std::cout << "Smooth shading disabled" << std::endl;
-		// 	}
-		// 	else
-		// 	{
-		// 		std::cout << "Smooth shading group" << std::endl;
-		// 	}
-		// 	#endif
-		// }
-		// else if (prefix[0] == '#')
-		// {
-		// 	continue;
-		// }
-		// else
-		// {
-		// 	std::cout << "Unknown token: " << prefix << std::endl;
-		// }
 	}
 	center_around_orgin();
 	facesDuplicateVertexes();
@@ -383,15 +316,15 @@ bool	mesh::loadMesh(const char* path)
 
 void	mesh::min_max_bounds(math::vec3& min_bound, math::vec3& max_bound)
 {
-	for (std::vector<obj::vertex>::iterator vert = this->vertices.begin(); vert != this->vertices.end();) 
+	for (std::vector<obj::vertex>::iterator vert = this->m_vertices.begin(); vert != this->m_vertices.end();) 
 	{
-		min_bound[0] = std::min(min_bound[0], vert->Position[0]);
-		min_bound[1] = std::min(min_bound[1], vert->Position[1]);
-		min_bound[2] = std::min(min_bound[2], vert->Position[2]);
+		min_bound[0] = std::min(min_bound[0], vert->m_position[0]);
+		min_bound[1] = std::min(min_bound[1], vert->m_position[1]);
+		min_bound[2] = std::min(min_bound[2], vert->m_position[2]);
 
-		max_bound[0] = std::max(max_bound[0], vert->Position[0]);
-		max_bound[1] = std::max(max_bound[1], vert->Position[1]);
-		max_bound[2] = std::max(max_bound[2], vert->Position[2]);
+		max_bound[0] = std::max(max_bound[0], vert->m_position[0]);
+		max_bound[1] = std::max(max_bound[1], vert->m_position[1]);
+		max_bound[2] = std::max(max_bound[2], vert->m_position[2]);
 		vert++;
 	}
 }
@@ -403,19 +336,16 @@ void	mesh::center_around_orgin()
 
 	min_max_bounds(min_bound, max_bound);
 
-	// std::cout << "min : " << min_bound.v[0] << " " << min_bound.v[1] << " " << min_bound.v[2] << std::endl;
-	// std::cout << "max : " << max_bound.v[0] << " " << max_bound.v[1] << " " << max_bound.v[2] << std::endl;
 	math::vec3 center = {0, 0, 0};
 	
 	center[0] = (min_bound[0] + max_bound[0]) / 2;
 	center[1] = (min_bound[1] + max_bound[1]) / 2;
 	center[2] = (min_bound[2] + max_bound[2]) / 2;
-	// std::cout << "center : " << center.v[0] << " " << center.v[1] << " " << center.v[2] << std::endl;
 
-	for (std::vector<obj::vertex>::iterator vert = this->vertices.begin(); vert != this->vertices.end(); ++vert)  {
-		(vert->Position)[0] -= center[0];
-		(vert->Position)[1] -= center[1];
-		(vert->Position)[2] -= center[2];
+	for (std::vector<obj::vertex>::iterator vert = this->m_vertices.begin(); vert != this->m_vertices.end(); ++vert)  {
+		(vert->m_position)[0] -= center[0];
+		(vert->m_position)[1] -= center[1];
+		(vert->m_position)[2] -= center[2];
 	}
 }
 
@@ -430,21 +360,21 @@ void	mesh::facesDuplicateVertexes()
 		{1.0, 1.0}
 	};
 	int face = 0;
-	for (std::vector<unsigned int>::iterator it = this->indices.begin(); it != this->indices.end(); ++it)
+	for (std::vector<unsigned int>::iterator it = this->m_indices.begin(); it != this->m_indices.end(); ++it)
 	{
 		if (nbPosIndex.find(*it) == nbPosIndex.end())
 		{
 			nbPosIndex[*it] = 1;
-			this->vertices[*it].Color = color;
-			this->vertices[*it].Texture = textures[face % 4];
+			this->m_vertices[*it].m_color = color;
+			this->m_vertices[*it].m_texture = textures[face % 4];
 		}
 		else
 		{
-			this->vertices.push_back(this->vertices[*it]);
-			*it = this->vertices.size() - 1;
+			this->m_vertices.push_back(this->m_vertices[*it]);
+			*it = this->m_vertices.size() - 1;
 			nbPosIndex[*it] += 1;
-			this->vertices[*it].Color = color;
-			this->vertices[*it].Texture = textures[face % 4];
+			this->m_vertices[*it].m_color = color;
+			this->m_vertices[*it].m_texture = textures[face % 4];
 		}
 		face++;
 		if (face % 3 == 0)

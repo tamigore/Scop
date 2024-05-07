@@ -24,8 +24,6 @@ class vec4
 		vec4(const float* src);
 		~vec4();
 
-		float*	getTab() const;
-
 		vec4&	operator=(const vec4 &rhs);
 		vec4&	operator=(const float &rhs);
 		vec4&	operator=(const float* rhs);

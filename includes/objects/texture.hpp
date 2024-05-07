@@ -8,9 +8,9 @@ namespace obj
 
 struct texture
 {
-    unsigned int	id;
-    std::string		type;
-    std::string		path;
+    unsigned int	m_id;
+    std::string		m_type;
+    std::string		m_path;
 };
 
 }
