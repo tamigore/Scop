@@ -226,8 +226,8 @@ int main(int ac, char **av)
 
 		if (rotate)
 		{
-			rotateX += 1.0f;
-			rotateY += 1.0f;
+			rotateX += 0.5f;
+			rotateY += 0.5f;
 		}
 		math::mat4 rx = model.rotate(math::radians(rotateX), math::vec3(1.0f, 0.0f, 0.0f));
 		math::mat4 ry = model.rotate(math::radians(rotateY), math::vec3(0.0f, 1.0f, 0.0f));
@@ -270,6 +270,7 @@ int main(int ac, char **av)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	glfwDestroyWindow(window);
 
 	glDeleteVertexArrays(1, &mesh.VAO);
 	glDeleteBuffers(1, &mesh.VBO);
@@ -282,6 +283,7 @@ int main(int ac, char **av)
 	glDeleteTextures(1, &mesh.textures[0].id);
 	glDeleteTextures(1, &mesh.textures[1].id);
 	glDeleteTextures(1, &cubemapTexture);
+
 	glDeleteProgram(skyboxShader.ID);
 	glDeleteProgram(ourShader.ID);
 
