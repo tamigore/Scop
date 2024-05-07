@@ -72,6 +72,7 @@ int main(int ac, char **av)
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
+		glfwTerminate();
 		return -1;
 	}
 
@@ -85,6 +86,7 @@ int main(int ac, char **av)
 	if (!mesh.loadMesh(av[1]))
 	{
 		std::cout << "Failed to load mesh" << std::endl;
+		glfwTerminate();
 		return -1;
 	}
 	mesh.add_texture("container.png", "srcs/textures");
@@ -289,6 +291,10 @@ int main(int ac, char **av)
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	glfwTerminate();
+
+	while (1) {
+		sleep(1);
+	}
 	return 0;
 }
 
