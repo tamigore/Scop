@@ -267,6 +267,9 @@ int main(int ac, char **av)
 		glfwPollEvents();
 	}
 
+	glDeleteVertexArrays(1, &mesh.VAO);
+	glDeleteBuffers(1, &mesh.VBO);
+	glDeleteBuffers(1, &mesh.EBO);
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	glfwTerminate();
 	return 0;

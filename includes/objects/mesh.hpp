@@ -21,7 +21,6 @@ namespace obj
 class mesh
 {
 	private:
-		unsigned int VAO, VBO, EBO;
 
 		void	setupMesh();
 		bool	add_vertex_position(std::string curline);
@@ -32,13 +31,9 @@ class mesh
 		unsigned int	TextureFromFile(const char *path, const std::string &directory);
 
 	public:
+		unsigned int VAO, VBO, EBO;
+
 		std::string					name;
-		// std::vector<math::vec3>	vertices;
-		// std::vector<math::vec3> 	normal;
-		// std::vector<math::vec2> 	textures;
-		// std::vector<math::vec3>	index_vertices;
-		// std::vector<math::vec3> 	index_normals;
-		// std::vector<math::vec2> 	index_textures;
         std::vector<vertex>			vertices;
         std::vector<unsigned int>	indices;
         std::vector<unsigned int>	position_indices;
@@ -46,11 +41,9 @@ class mesh
         std::vector<unsigned int>	texture_indices;
         std::vector<texture>		textures;
         std::vector<face>			faces;
-		// material					m_material;
 
 		mesh();
 		mesh(char* path);
-		// mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<texture> textures);
 		~mesh();
 
         void	draw(shader &shader);
