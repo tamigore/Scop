@@ -70,10 +70,3 @@ void	split(const std::string &in, std::vector<std::string> &out, std::string tok
 		}
 	}
 }
-
-bool	validate_float(float value, float max, float min)
-{
-	if (value > max || value < min)
-		return false;
-	return true;
-}

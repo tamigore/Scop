@@ -6,7 +6,6 @@
 # include <vector>
 
 # include "vertex.hpp"
-# include "material.hpp"
 # include "face.hpp"
 # include "texture.hpp"
 # include "shader.hpp"

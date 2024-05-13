@@ -44,8 +44,8 @@ int main(int ac, char **av)
 
 	// glfw: initialize and configure
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -132,7 +132,7 @@ int main(int ac, char **av)
 	};
 
 	// // SKY BOX IMAGES
-	std::vector<const char *> files = {
+	std::vector<std::string> files = {
 		"srcs/skybox/right.jpg",
 		"srcs/skybox/left.jpg",
 		"srcs/skybox/top.jpg",
@@ -171,7 +171,7 @@ int main(int ac, char **av)
 		std::cout << files[i] << std::endl;
 
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(files[i], &width, &height, &nrChannels, 0);
+		unsigned char* data = stbi_load(files[i].c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
 			stbi_set_flip_vertically_on_load(false);

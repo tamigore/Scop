@@ -92,6 +92,11 @@ $(NAME): $(CPP_OBJS) $(C_OBJS)
 	@$(CC) $(CFLAGS) $(CPP_OBJS) $(C_OBJS) $(OPENGL) -o $(NAME) -ldl -lpthread
 	@ echo "$(_GREEN)[program created & ready]$(_NC)"
 
+sanitize: $(CPP_OBJS) $(C_OBJS)
+	@ echo "\t$(_YELLOW)[Creating program]$(_NC)"
+	@$(CC) $(CFLAGS) $(CPP_OBJS) $(C_OBJS) $(OPENGL) -o $(NAME) -ldl -lpthread -fsanitize=address
+	@ echo "$(_GREEN)[program created & ready]$(_NC)"
+
 clean:
 	echo "$(_RED)[cleaning up .out & objects files]"
 	@$(RM) $(OBJS_DIR)
@@ -106,6 +111,6 @@ re: fclean all
 .SILENT:
 		all
 
-.PHONY: all clean fclean re
+.PHONY: all sanitize clean fclean re
 
 -include $(DEP_FILES)
