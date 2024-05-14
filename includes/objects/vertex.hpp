@@ -1,10 +1,8 @@
 #ifndef __VERTEX_HPP__
 # define __VERTEX_HPP__
 
-#include "../math/vec3.hpp"
-#include "../math/vec2.hpp"
-
-// #define MAX_BONE_INFLUENCE 10
+#include "math/vec3.hpp"
+#include "math/vec2.hpp"
 
 namespace obj
 {

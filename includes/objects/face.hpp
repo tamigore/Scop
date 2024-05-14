@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../../includes/math/math.hpp"
+#include "math/math.hpp"
 
 namespace obj
 {
