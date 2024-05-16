@@ -11,10 +11,10 @@
 #include <iostream>
 
 bool	rotate = true;
-bool	useColor = true;
 bool	skybox_active = false;
-
+float	mixColor = 0.0f;
 float	mixValue = 0.2f;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -223,8 +223,7 @@ int main(int ac, char **av)
 		ourShader.setMat4("view", view);
 
 		ourShader.setFloat("mixValue", mixValue);
-		ourShader.setBool("useColor", useColor);
-
+		ourShader.setFloat("mixColor", mixColor);
 
 		if (rotate)
 		{
@@ -296,7 +295,6 @@ int main(int ac, char **av)
 }
 
 bool r_pressed = false;
-bool c_pressed = false;
 bool b_pressed = false;
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
@@ -314,14 +312,14 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(obj::RIGHT, deltaTime * 5);
 
-	if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
 	{
 		std::cout << "UP mixValue: " << mixValue << std::endl;
 		mixValue += 0.01f;
 		if(mixValue >= 1.0f)
 			mixValue = 1.0f;
 	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
 	{
 		std::cout << "Down mixValue: " << mixValue << std::endl;
 		mixValue -= 0.01f;
@@ -329,15 +327,19 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 			mixValue = 0.0f;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
 	{
-		c_pressed = true;
+		std::cout << "UP mixColor: " << mixColor << std::endl;
+		mixColor += 0.01f;
+		if(mixColor >= 1.0f)
+			mixColor = 1.0f;
 	}
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && c_pressed)
+	if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
 	{
-		c_pressed = false;
-		useColor = !useColor;
-		std::cout << "useColor: " << useColor << std::endl;
+		std::cout << "Down mixColor: " << mixColor << std::endl;
+		mixColor -= 0.01f;
+		if (mixColor <= 0.0f)
+			mixColor = 0.0f;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
