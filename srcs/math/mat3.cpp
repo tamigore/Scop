@@ -1,4 +1,4 @@
-#include "../../includes/math/mat3.hpp"
+#include "math/mat3.hpp"
 
 using namespace math;
 
@@ -24,7 +24,7 @@ mat3::mat3(float diag) : mat3()
 		this->value[i][i] = diag;
 }
 
-mat3&	mat3::translate(float x, float y, float z)
+mat3 &mat3::translate(float x, float y, float z)
 {
 	this->value[2][0] = x;
 	this->value[2][1] = y;
@@ -32,7 +32,7 @@ mat3&	mat3::translate(float x, float y, float z)
 	return (*this);
 }
 
-mat3&	mat3::rotate(float angle, float x, float y, float z)
+mat3 &mat3::rotate(float angle, float x, float y, float z)
 {
 	float rad = angle * M_PI / 180;
 	float c = std::cos(rad);
@@ -53,12 +53,12 @@ mat3&	mat3::rotate(float angle, float x, float y, float z)
 	return (*this);
 }
 
-float*	mat3::getValue()
+float *mat3::getValue()
 {
 	return (&this->value[0][0]);
 }
 
-mat3&	mat3::operator=(const mat3 &rhs)
+mat3 &mat3::operator=(const mat3 &rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -66,7 +66,7 @@ mat3&	mat3::operator=(const mat3 &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator=(const float &rhs)
+mat3 &mat3::operator=(const float &rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -74,7 +74,7 @@ mat3&	mat3::operator=(const float &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator=(const float* rhs)
+mat3 &mat3::operator=(const float *rhs)
 {
 	if (!rhs)
 	{
@@ -89,7 +89,7 @@ mat3&	mat3::operator=(const float* rhs)
 	return (*this);
 }
 
-mat3	mat3::operator+(const mat3 &rhs) const
+mat3 mat3::operator+(const mat3 &rhs) const
 {
 	mat3 result;
 
@@ -100,7 +100,7 @@ mat3	mat3::operator+(const mat3 &rhs) const
 	return (result);
 }
 
-mat3	mat3::operator+(const float rhs) const
+mat3 mat3::operator+(const float rhs) const
 {
 	mat3 result;
 
@@ -110,7 +110,7 @@ mat3	mat3::operator+(const float rhs) const
 	return (result);
 }
 
-mat3	mat3::operator-(const mat3 &rhs) const
+mat3 mat3::operator-(const mat3 &rhs) const
 {
 	mat3 result;
 
@@ -121,7 +121,7 @@ mat3	mat3::operator-(const mat3 &rhs) const
 	return (result);
 }
 
-mat3	mat3::operator-(const float rhs) const
+mat3 mat3::operator-(const float rhs) const
 {
 	mat3 result;
 
@@ -131,7 +131,7 @@ mat3	mat3::operator-(const float rhs) const
 	return (result);
 }
 
-mat3	mat3::operator*(const mat3 &rhs) const
+mat3 mat3::operator*(const mat3 &rhs) const
 {
 	mat3 result;
 
@@ -142,7 +142,7 @@ mat3	mat3::operator*(const mat3 &rhs) const
 	return (result);
 }
 
-mat3	mat3::operator*(const float rhs) const
+mat3 mat3::operator*(const float rhs) const
 {
 	mat3 result;
 
@@ -152,7 +152,7 @@ mat3	mat3::operator*(const float rhs) const
 	return (result);
 }
 
-mat3	mat3::operator/(const mat3 &rhs) const
+mat3 mat3::operator/(const mat3 &rhs) const
 {
 	mat3 result;
 
@@ -163,7 +163,7 @@ mat3	mat3::operator/(const mat3 &rhs) const
 	return (result);
 }
 
-mat3	mat3::operator/(const float rhs) const
+mat3 mat3::operator/(const float rhs) const
 {
 	mat3 result;
 
@@ -173,7 +173,7 @@ mat3	mat3::operator/(const float rhs) const
 	return (result);
 }
 
-mat3&	mat3::operator+=(const mat3 &rhs)
+mat3 &mat3::operator+=(const mat3 &rhs)
 {
 	mat3 result;
 
@@ -184,7 +184,7 @@ mat3&	mat3::operator+=(const mat3 &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator+=(const float rhs)
+mat3 &mat3::operator+=(const float rhs)
 {
 	mat3 result;
 
@@ -194,7 +194,7 @@ mat3&	mat3::operator+=(const float rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator-=(const mat3 &rhs)
+mat3 &mat3::operator-=(const mat3 &rhs)
 {
 	mat3 result;
 
@@ -205,7 +205,7 @@ mat3&	mat3::operator-=(const mat3 &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator-=(const float rhs)
+mat3 &mat3::operator-=(const float rhs)
 {
 	mat3 result;
 
@@ -215,7 +215,7 @@ mat3&	mat3::operator-=(const float rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator*=(const mat3 &rhs)
+mat3 &mat3::operator*=(const mat3 &rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -224,7 +224,7 @@ mat3&	mat3::operator*=(const mat3 &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator*=(const float rhs)
+mat3 &mat3::operator*=(const float rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -232,7 +232,7 @@ mat3&	mat3::operator*=(const float rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator/=(const mat3 &rhs)
+mat3 &mat3::operator/=(const mat3 &rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -241,7 +241,7 @@ mat3&	mat3::operator/=(const mat3 &rhs)
 	return (*this);
 }
 
-mat3&	mat3::operator/=(const float rhs)
+mat3 &mat3::operator/=(const float rhs)
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -249,7 +249,7 @@ mat3&	mat3::operator/=(const float rhs)
 	return (*this);
 }
 
-bool	mat3::operator==(const mat3 &rhs) const
+bool mat3::operator==(const mat3 &rhs) const
 {
 	for (int i = 0; i < 3; i++)
 		for (int y = 0; y < 3; y++)
@@ -259,19 +259,19 @@ bool	mat3::operator==(const mat3 &rhs) const
 	return (true);
 }
 
-bool	mat3::operator!=(const mat3 &rhs) const
+bool mat3::operator!=(const mat3 &rhs) const
 {
 	if (*this == rhs)
 		return (false);
 	return (true);
 }
 
-float*	mat3::operator[](const int index)
+float *mat3::operator[](const int index)
 {
 	return (this->value[index]);
 }
 
-std::ostream&	operator<<(std::ostream &o, const mat3 &rhs)
+std::ostream &operator<<(std::ostream &o, const mat3 &rhs)
 {
 	mat3 tmp(rhs);
 	for (int i = 0; i < 3; i++)

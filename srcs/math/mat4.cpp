@@ -1,4 +1,4 @@
-#include "../../includes/math/mat4.hpp"
+#include "math/mat4.hpp"
 
 using namespace math;
 
@@ -24,7 +24,7 @@ mat4::mat4(float diag) : mat4()
 		this->value[i][i] = diag;
 }
 
-mat4&	mat4::translate(float x, float y, float z)
+mat4 &mat4::translate(float x, float y, float z)
 {
 	this->value[3][0] = x;
 	this->value[3][1] = y;
@@ -32,7 +32,7 @@ mat4&	mat4::translate(float x, float y, float z)
 	return (*this);
 }
 
-mat4&	mat4::rotate(float angle, float x, float y, float z)
+mat4 &mat4::rotate(float angle, float x, float y, float z)
 {
 	float c = std::cos(angle);
 	float s = std::sin(angle);
@@ -52,7 +52,7 @@ mat4&	mat4::rotate(float angle, float x, float y, float z)
 	return (*this);
 }
 
-mat4&	mat4::rotate(float angle, const vec3 &vec)
+mat4 &mat4::rotate(float angle, const vec3 &vec)
 {
 	float c = std::cos(angle);
 	float s = std::sin(angle);
@@ -72,7 +72,7 @@ mat4&	mat4::rotate(float angle, const vec3 &vec)
 	return (*this);
 }
 
-mat4&	mat4::scale(const vec3 &vec)
+mat4 &mat4::scale(const vec3 &vec)
 {
 	this->value[0][0] *= vec.x;
 	this->value[1][1] *= vec.y;
@@ -80,10 +80,10 @@ mat4&	mat4::scale(const vec3 &vec)
 	return (*this);
 }
 
-mat4&	mat4::perspective(float fov, float aspect, float near, float far)
+mat4 &mat4::perspective(float fov, float aspect, float near, float far)
 {
 	float tanHalfFovy = std::tan(fov / 2.0f);
-	
+
 	this->value[0][0] = 1.0f / (aspect * tanHalfFovy);
 	this->value[1][1] = 1.0f / (tanHalfFovy);
 	this->value[2][2] = -(far + near) / (far - near);
@@ -92,12 +92,12 @@ mat4&	mat4::perspective(float fov, float aspect, float near, float far)
 	return (*this);
 }
 
-float*	mat4::getValue()
+float *mat4::getValue()
 {
 	return (&this->value[0][0]);
 }
 
-mat4&	mat4::operator=(const mat4 &rhs)
+mat4 &mat4::operator=(const mat4 &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -105,7 +105,7 @@ mat4&	mat4::operator=(const mat4 &rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator=(const float &rhs)
+mat4 &mat4::operator=(const float &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -113,7 +113,7 @@ mat4&	mat4::operator=(const float &rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator=(const float* rhs)
+mat4 &mat4::operator=(const float *rhs)
 {
 	if (!rhs)
 	{
@@ -128,7 +128,7 @@ mat4&	mat4::operator=(const float* rhs)
 	return (*this);
 }
 
-mat4	mat4::operator+(const mat4 &rhs) const
+mat4 mat4::operator+(const mat4 &rhs) const
 {
 	mat4 result;
 
@@ -138,7 +138,7 @@ mat4	mat4::operator+(const mat4 &rhs) const
 	return (result);
 }
 
-mat4	mat4::operator+(const float rhs) const
+mat4 mat4::operator+(const float rhs) const
 {
 	mat4 result;
 
@@ -148,7 +148,7 @@ mat4	mat4::operator+(const float rhs) const
 	return (result);
 }
 
-mat4	mat4::operator-(const mat4 &rhs) const
+mat4 mat4::operator-(const mat4 &rhs) const
 {
 	mat4 result;
 
@@ -158,7 +158,7 @@ mat4	mat4::operator-(const mat4 &rhs) const
 	return (result);
 }
 
-mat4	mat4::operator-(const float rhs) const
+mat4 mat4::operator-(const float rhs) const
 {
 	mat4 result;
 	for (int x = 0; x < 4; x++)
@@ -167,51 +167,48 @@ mat4	mat4::operator-(const float rhs) const
 	return (result);
 }
 
-mat4	mat4::operator*(const mat4 &rhs) const
+mat4 mat4::operator*(const mat4 &rhs) const
 {
-    mat4    mat;
-    mat4    tmp(rhs);
-    int        x;
-    int        y;
+	mat4 mat;
+	mat4 tmp(rhs);
+	int x;
+	int y;
 
-    y = 0;
-    while (y < 4)
-    {
-        x = 0;
-        while (x < 4)
-        {
-            mat[y][x] = this->value[y][0] * tmp[0][x]
-                + this->value[y][1] * tmp[1][x]
-                + this->value[y][2] * tmp[2][x]
-                + this->value[y][3] * tmp[3][x];
-            x++;
-        }
-        y++;
-    }
-    return (mat);
+	y = 0;
+	while (y < 4)
+	{
+		x = 0;
+		while (x < 4)
+		{
+			mat[y][x] = this->value[y][0] * tmp[0][x] + this->value[y][1] * tmp[1][x] + this->value[y][2] * tmp[2][x] + this->value[y][3] * tmp[3][x];
+			x++;
+		}
+		y++;
+	}
+	return (mat);
 }
 
-vec3	mat4::operator*(const vec3 &rhs) const
+vec3 mat4::operator*(const vec3 &rhs) const
 {
-	vec3	tmp(rhs);
-	vec3	res;
+	vec3 tmp(rhs);
+	vec3 res;
 	for (int x = 0; x < 3; x++)
 		for (int y = 0; y < 3; y++)
 			res[x] += this->value[x][y] * tmp[y];
 	return (res);
 }
 
-vec4	mat4::operator*(const vec4 &rhs) const
+vec4 mat4::operator*(const vec4 &rhs) const
 {
-	vec4	tmp(rhs);
-	vec4	res;
+	vec4 tmp(rhs);
+	vec4 res;
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
 			res[x] += this->value[x][y] * tmp[y];
 	return (res);
 }
 
-mat4	mat4::operator*(const float rhs) const
+mat4 mat4::operator*(const float rhs) const
 {
 	mat4 result;
 
@@ -221,17 +218,17 @@ mat4	mat4::operator*(const float rhs) const
 	return (result);
 }
 
-mat4	mat4::operator/(const mat4 &rhs) const
+mat4 mat4::operator/(const mat4 &rhs) const
 {
 	mat4 result;
 
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
-				result.value[x][y] = this->value[x][y] * rhs.value[x][y];
+			result.value[x][y] = this->value[x][y] * rhs.value[x][y];
 	return (result);
 }
 
-mat4	mat4::operator/(const float rhs) const
+mat4 mat4::operator/(const float rhs) const
 {
 	mat4 result;
 	for (int x = 0; x < 4; x++)
@@ -240,15 +237,15 @@ mat4	mat4::operator/(const float rhs) const
 	return (result);
 }
 
-mat4&	mat4::operator+=(const mat4 &rhs)
+mat4 &mat4::operator+=(const mat4 &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
-				this->value[x][y] += rhs.value[x][y];
+			this->value[x][y] += rhs.value[x][y];
 	return (*this);
 }
 
-mat4&	mat4::operator+=(const float rhs)
+mat4 &mat4::operator+=(const float rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -256,15 +253,15 @@ mat4&	mat4::operator+=(const float rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator-=(const mat4 &rhs)
+mat4 &mat4::operator-=(const mat4 &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
-				this->value[x][y] -= rhs.value[x][y];
+			this->value[x][y] -= rhs.value[x][y];
 	return (*this);
 }
 
-mat4&	mat4::operator-=(const float rhs)
+mat4 &mat4::operator-=(const float rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -272,7 +269,7 @@ mat4&	mat4::operator-=(const float rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator*=(const mat4 &rhs)
+mat4 &mat4::operator*=(const mat4 &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -280,7 +277,7 @@ mat4&	mat4::operator*=(const mat4 &rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator*=(const float rhs)
+mat4 &mat4::operator*=(const float rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -288,15 +285,15 @@ mat4&	mat4::operator*=(const float rhs)
 	return (*this);
 }
 
-mat4&	mat4::operator/=(const mat4 &rhs)
+mat4 &mat4::operator/=(const mat4 &rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
-				this->value[x][y] /= rhs.value[x][y];
+			this->value[x][y] /= rhs.value[x][y];
 	return (*this);
 }
 
-mat4&	mat4::operator/=(const float rhs)
+mat4 &mat4::operator/=(const float rhs)
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -304,7 +301,7 @@ mat4&	mat4::operator/=(const float rhs)
 	return (*this);
 }
 
-bool	mat4::operator==(const mat4 &rhs) const
+bool mat4::operator==(const mat4 &rhs) const
 {
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
@@ -313,21 +310,21 @@ bool	mat4::operator==(const mat4 &rhs) const
 	return (true);
 }
 
-bool	mat4::operator!=(const mat4 &rhs) const
+bool mat4::operator!=(const mat4 &rhs) const
 {
 	if (*this == rhs)
 		return (false);
 	return (true);
 }
 
-float*	mat4::operator[](const int index)
+float *mat4::operator[](const int index)
 {
 	return (this->value[index]);
 }
 
 namespace math
 {
-	std::ostream&	operator<<(std::ostream &o, const mat4 &rhs)
+	std::ostream &operator<<(std::ostream &o, const mat4 &rhs)
 	{
 		mat4 tmp(rhs);
 		for (int i = 0; i < 4; i++)

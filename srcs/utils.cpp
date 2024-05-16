@@ -1,6 +1,6 @@
-# include "../includes/utils.hpp"
+#include "utils.hpp"
 
-std::string	tail(const std::string &in)
+std::string tail(const std::string &in)
 {
 	size_t token_start = in.find_first_not_of(" \t");
 	size_t space_start = in.find_first_of(" \t", token_start);
@@ -17,7 +17,7 @@ std::string	tail(const std::string &in)
 	return "";
 }
 
-std::string	firstToken(const std::string &in)
+std::string firstToken(const std::string &in)
 {
 	if (!in.empty())
 	{
@@ -35,7 +35,7 @@ std::string	firstToken(const std::string &in)
 	return "";
 }
 
-void	split(const std::string &in, std::vector<std::string> &out, std::string token)
+void split(const std::string &in, std::vector<std::string> &out, std::string token)
 {
 	out.clear();
 

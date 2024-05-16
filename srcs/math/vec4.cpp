@@ -1,4 +1,4 @@
-#include "../../includes/math/vec4.hpp"
+#include "math/vec4.hpp"
 
 using namespace math;
 
@@ -42,10 +42,10 @@ vec4::vec4(const float &x, const float &y, const float &z, const float &w)
 	this->w = w;
 }
 
-vec4::vec4(const float* src): vec4::vec4()
+vec4::vec4(const float *src) : vec4::vec4()
 {
 	if (!src)
-		return ;
+		return;
 	try
 	{
 		this->x = src[0];
@@ -61,7 +61,7 @@ vec4::vec4(const float* src): vec4::vec4()
 
 vec4::~vec4() {}
 
-vec4&	vec4::operator=(const vec4 &rhs) 
+vec4 &vec4::operator=(const vec4 &rhs)
 {
 	this->x = rhs.x;
 	this->y = rhs.y;
@@ -70,7 +70,7 @@ vec4&	vec4::operator=(const vec4 &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator=(const float &rhs) 
+vec4 &vec4::operator=(const float &rhs)
 {
 	this->x = rhs;
 	this->y = rhs;
@@ -79,7 +79,7 @@ vec4&	vec4::operator=(const float &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator=(const float* rhs) 
+vec4 &vec4::operator=(const float *rhs)
 {
 	if (!rhs)
 	{
@@ -96,47 +96,47 @@ vec4&	vec4::operator=(const float* rhs)
 	return (*this);
 }
 
-vec4	vec4::operator+(const vec4 &rhs) const
+vec4 vec4::operator+(const vec4 &rhs) const
 {
 	return (vec4(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z, this->w + rhs.w));
 }
 
-vec4	vec4::operator+(const float rhs) const
+vec4 vec4::operator+(const float rhs) const
 {
 	return (vec4(this->x + rhs, this->y + rhs, this->z + rhs, this->w + rhs));
 }
 
-vec4	vec4::operator-(const vec4 &rhs) const
+vec4 vec4::operator-(const vec4 &rhs) const
 {
 	return (vec4(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z, this->w - rhs.w));
 }
 
-vec4	vec4::operator-(const float rhs) const
+vec4 vec4::operator-(const float rhs) const
 {
 	return (vec4(this->x - rhs, this->y - rhs, this->z - rhs, this->w - rhs));
 }
 
-vec4	vec4::operator*(const vec4 &rhs) const
+vec4 vec4::operator*(const vec4 &rhs) const
 {
 	return (vec4(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z, this->w * rhs.w));
 }
 
-vec4	vec4::operator*(const float rhs) const
+vec4 vec4::operator*(const float rhs) const
 {
 	return (vec4(this->x * rhs, this->y * rhs, this->z * rhs, this->w * rhs));
 }
 
-vec4	vec4::operator/(const vec4 &rhs) const
+vec4 vec4::operator/(const vec4 &rhs) const
 {
 	return (vec4(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w / rhs.w));
 }
 
-vec4	vec4::operator/(const float rhs) const
+vec4 vec4::operator/(const float rhs) const
 {
 	return (vec4(this->x / rhs, this->y / rhs, this->z / rhs, this->w / rhs));
 }
 
-vec4&	vec4::operator+=(const vec4 &rhs)
+vec4 &vec4::operator+=(const vec4 &rhs)
 {
 	this->x += rhs.x;
 	this->y += rhs.y;
@@ -145,7 +145,7 @@ vec4&	vec4::operator+=(const vec4 &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator+=(const float rhs)
+vec4 &vec4::operator+=(const float rhs)
 {
 	this->x += rhs;
 	this->y += rhs;
@@ -154,7 +154,7 @@ vec4&	vec4::operator+=(const float rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator-=(const vec4 &rhs)
+vec4 &vec4::operator-=(const vec4 &rhs)
 {
 	this->x -= rhs.x;
 	this->y -= rhs.y;
@@ -163,7 +163,7 @@ vec4&	vec4::operator-=(const vec4 &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator-=(const float rhs)
+vec4 &vec4::operator-=(const float rhs)
 {
 	this->x -= rhs;
 	this->y -= rhs;
@@ -172,7 +172,7 @@ vec4&	vec4::operator-=(const float rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator*=(const vec4 &rhs)
+vec4 &vec4::operator*=(const vec4 &rhs)
 {
 	this->x *= rhs.x;
 	this->y *= rhs.y;
@@ -181,7 +181,7 @@ vec4&	vec4::operator*=(const vec4 &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator*=(const float rhs)
+vec4 &vec4::operator*=(const float rhs)
 {
 	this->x *= rhs;
 	this->y *= rhs;
@@ -190,7 +190,7 @@ vec4&	vec4::operator*=(const float rhs)
 	return (*this);
 }
 
-vec4&	vec4::vec4::operator/=(const vec4 &rhs)
+vec4 &vec4::vec4::operator/=(const vec4 &rhs)
 {
 	this->x /= rhs.x;
 	this->y /= rhs.y;
@@ -199,7 +199,7 @@ vec4&	vec4::vec4::operator/=(const vec4 &rhs)
 	return (*this);
 }
 
-vec4&	vec4::operator/=(const float rhs)
+vec4 &vec4::operator/=(const float rhs)
 {
 	this->x /= rhs;
 	this->y /= rhs;
@@ -208,16 +208,16 @@ vec4&	vec4::operator/=(const float rhs)
 	return (*this);
 }
 
-bool	vec4::operator==(const vec4 &rhs) const
+bool vec4::operator==(const vec4 &rhs) const
 {
 	return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z && this->w == rhs.w);
 }
-bool	vec4::operator!=(const vec4 &rhs) const
+bool vec4::operator!=(const vec4 &rhs) const
 {
 	return (this->x != rhs.x || this->y != rhs.y || this->z != rhs.z || this->w != rhs.w);
 }
 
-float&	vec4::operator[](const int index)
+float &vec4::operator[](const int index)
 {
 	if (index == 0)
 		return (this->x);
@@ -231,13 +231,13 @@ float&	vec4::operator[](const int index)
 		throw std::out_of_range("vec4 index out of range");
 }
 
-vec4	vec4::normalize()
+vec4 vec4::normalize()
 {
 	float mag = vec4::magnitude(*this);
 	return vec4(this->x / mag, this->y / mag, this->z / mag, this->w / mag);
 }
 
-vec4	vec4::cross(const vec4 a, const vec4 b)
+vec4 vec4::cross(const vec4 a, const vec4 b)
 {
 	return vec4(a.y * b.z - a.z * b.y,
 				a.z * b.x - a.x * b.z,
@@ -245,24 +245,24 @@ vec4	vec4::cross(const vec4 a, const vec4 b)
 				1);
 }
 
-float	vec4::magnitude(const vec4 vec)
+float vec4::magnitude(const vec4 vec)
 {
 	return (sqrtf(powf(vec.x, 2) + powf(vec.y, 2) + powf(vec.z, 2) + powf(vec.w, 2)));
 }
 
-float	vec4::dot(const vec4 a, const vec4 b)
+float vec4::dot(const vec4 a, const vec4 b)
 {
 	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w);
 }
 
-float	vec4::angle(const vec4 a, const vec4 b)
+float vec4::angle(const vec4 a, const vec4 b)
 {
 	float angle = dot(a, b);
 	angle /= (magnitude(a) * magnitude(b));
 	return angle = acosf(angle);
 }
 
-vec4	vec4::projection(const vec4 a, const vec4 b)
+vec4 vec4::projection(const vec4 a, const vec4 b)
 {
 	vec4 bn = b / magnitude(b);
 	return bn * dot(a, bn);
@@ -270,28 +270,28 @@ vec4	vec4::projection(const vec4 a, const vec4 b)
 
 namespace math
 {
-	std::ostream&	operator<<(std::ostream &out, const vec4 &rhs)
+	std::ostream &operator<<(std::ostream &out, const vec4 &rhs)
 	{
 		out << "vec4(" << rhs.x << ", " << rhs.y << ", " << rhs.z << ", " << rhs.w << ")";
 		return (out);
 	}
 
-	vec4			operator*(const float lhs, const vec4 &rhs)
+	vec4 operator*(const float lhs, const vec4 &rhs)
 	{
 		return (vec4(rhs.x * lhs, rhs.y * lhs, rhs.z * lhs, rhs.w * lhs));
 	}
-	
-	vec4			operator/(const float lhs, const vec4 &rhs)
+
+	vec4 operator/(const float lhs, const vec4 &rhs)
 	{
 		return (vec4(rhs.x / lhs, rhs.y / lhs, rhs.z / lhs, rhs.w / lhs));
 	}
 
-	vec4			operator+(const float lhs, const vec4 &rhs)
+	vec4 operator+(const float lhs, const vec4 &rhs)
 	{
 		return (vec4(rhs.x + lhs, rhs.y + lhs, rhs.z + lhs, rhs.w + lhs));
 	}
 
-	vec4			operator-(const float lhs, const vec4 &rhs)
+	vec4 operator-(const float lhs, const vec4 &rhs)
 	{
 		return (vec4(rhs.x - lhs, rhs.y - lhs, rhs.z - lhs, rhs.w - lhs));
 	}

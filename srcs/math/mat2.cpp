@@ -1,4 +1,4 @@
-#include "../../includes/math/mat2.hpp"
+#include "math/mat2.hpp"
 
 using namespace math;
 
@@ -24,12 +24,12 @@ mat2::mat2(float diag) : mat2()
 		this->value[i][i] = diag;
 }
 
-float*	mat2::getValue()
+float *mat2::getValue()
 {
 	return (&this->value[0][0]);
 }
 
-mat2&	mat2::operator=(const mat2 &rhs)
+mat2 &mat2::operator=(const mat2 &rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -37,7 +37,7 @@ mat2&	mat2::operator=(const mat2 &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator=(const float &rhs)
+mat2 &mat2::operator=(const float &rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -45,7 +45,7 @@ mat2&	mat2::operator=(const float &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator=(const float* rhs)
+mat2 &mat2::operator=(const float *rhs)
 {
 	if (!rhs)
 	{
@@ -60,7 +60,7 @@ mat2&	mat2::operator=(const float* rhs)
 	return (*this);
 }
 
-mat2	mat2::operator+(const mat2 &rhs) const
+mat2 mat2::operator+(const mat2 &rhs) const
 {
 	mat2 result;
 
@@ -71,7 +71,7 @@ mat2	mat2::operator+(const mat2 &rhs) const
 	return (result);
 }
 
-mat2	mat2::operator+(const float rhs) const
+mat2 mat2::operator+(const float rhs) const
 {
 	mat2 result;
 
@@ -81,7 +81,7 @@ mat2	mat2::operator+(const float rhs) const
 	return (result);
 }
 
-mat2	mat2::operator-(const mat2 &rhs) const
+mat2 mat2::operator-(const mat2 &rhs) const
 {
 	mat2 result;
 
@@ -92,7 +92,7 @@ mat2	mat2::operator-(const mat2 &rhs) const
 	return (result);
 }
 
-mat2	mat2::operator-(const float rhs) const
+mat2 mat2::operator-(const float rhs) const
 {
 	mat2 result;
 
@@ -102,7 +102,7 @@ mat2	mat2::operator-(const float rhs) const
 	return (result);
 }
 
-mat2	mat2::operator*(const mat2 &rhs) const
+mat2 mat2::operator*(const mat2 &rhs) const
 {
 	mat2 result;
 
@@ -113,7 +113,7 @@ mat2	mat2::operator*(const mat2 &rhs) const
 	return (result);
 }
 
-mat2	mat2::operator*(const float rhs) const
+mat2 mat2::operator*(const float rhs) const
 {
 	mat2 result;
 
@@ -123,7 +123,7 @@ mat2	mat2::operator*(const float rhs) const
 	return (result);
 }
 
-mat2	mat2::operator/(const mat2 &rhs) const
+mat2 mat2::operator/(const mat2 &rhs) const
 {
 	mat2 result;
 
@@ -134,7 +134,7 @@ mat2	mat2::operator/(const mat2 &rhs) const
 	return (result);
 }
 
-mat2	mat2::operator/(const float rhs) const
+mat2 mat2::operator/(const float rhs) const
 {
 	mat2 result;
 
@@ -144,7 +144,7 @@ mat2	mat2::operator/(const float rhs) const
 	return (result);
 }
 
-mat2&	mat2::operator+=(const mat2 &rhs)
+mat2 &mat2::operator+=(const mat2 &rhs)
 {
 	mat2 result;
 
@@ -155,7 +155,7 @@ mat2&	mat2::operator+=(const mat2 &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator+=(const float rhs)
+mat2 &mat2::operator+=(const float rhs)
 {
 	mat2 result;
 
@@ -165,7 +165,7 @@ mat2&	mat2::operator+=(const float rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator-=(const mat2 &rhs)
+mat2 &mat2::operator-=(const mat2 &rhs)
 {
 	mat2 result;
 
@@ -176,7 +176,7 @@ mat2&	mat2::operator-=(const mat2 &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator-=(const float rhs)
+mat2 &mat2::operator-=(const float rhs)
 {
 	mat2 result;
 
@@ -186,7 +186,7 @@ mat2&	mat2::operator-=(const float rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator*=(const mat2 &rhs)
+mat2 &mat2::operator*=(const mat2 &rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -195,7 +195,7 @@ mat2&	mat2::operator*=(const mat2 &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator*=(const float rhs)
+mat2 &mat2::operator*=(const float rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -203,7 +203,7 @@ mat2&	mat2::operator*=(const float rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator/=(const mat2 &rhs)
+mat2 &mat2::operator/=(const mat2 &rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -212,7 +212,7 @@ mat2&	mat2::operator/=(const mat2 &rhs)
 	return (*this);
 }
 
-mat2&	mat2::operator/=(const float rhs)
+mat2 &mat2::operator/=(const float rhs)
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -220,7 +220,7 @@ mat2&	mat2::operator/=(const float rhs)
 	return (*this);
 }
 
-bool	mat2::operator==(const mat2 &rhs) const
+bool mat2::operator==(const mat2 &rhs) const
 {
 	for (int i = 0; i < 2; i++)
 		for (int y = 0; y < 2; y++)
@@ -230,19 +230,19 @@ bool	mat2::operator==(const mat2 &rhs) const
 	return (true);
 }
 
-bool	mat2::operator!=(const mat2 &rhs) const
+bool mat2::operator!=(const mat2 &rhs) const
 {
 	if (*this == rhs)
 		return (false);
 	return (true);
 }
 
-float*	mat2::operator[](const int index)
+float *mat2::operator[](const int index)
 {
 	return (this->value[index]);
 }
 
-std::ostream&	operator<<(std::ostream &o, const mat2 &rhs)
+std::ostream &operator<<(std::ostream &o, const mat2 &rhs)
 {
 	mat2 tmp(rhs);
 	for (int i = 0; i < 2; i++)

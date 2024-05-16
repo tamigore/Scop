@@ -1,23 +1,23 @@
-#include "../includes/glad/glad.h"
-#include "../includes/objects/shader.hpp"
-#include "../includes/objects/camera.hpp"
-#include "../includes/objects/mesh.hpp"
+#include "glad/glad.h"
+#include "objects/shader.hpp"
+#include "objects/camera.hpp"
+#include "objects/mesh.hpp"
 
-#include "../includes/stb_image.h"
+#include "stb_image.h"
 
 #include <unistd.h>
 #include <vector>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-bool	rotate = true;
-bool	skybox_active = false;
-float	mixColor = 0.0f;
-float	mixValue = 0.2f;
+bool rotate = true;
+bool skybox_active = false;
+float mixColor = 0.0f;
+float mixValue = 0.2f;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window, math::mat4 &model);
 
 // settings
@@ -31,7 +31,7 @@ float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
-float deltaTime = 0.0f;	// time between current frame and last frame
+float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
 
 float rotateX = 0.0f;
@@ -53,7 +53,7 @@ int main(int ac, char **av)
 #endif
 
 	// glfw window creation
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Scop", NULL, NULL);
+	GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Scop", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -91,45 +91,42 @@ int main(int ac, char **av)
 	}
 	mesh.add_texture("container.png", "srcs/textures");
 	mesh.add_texture("pony.png", "srcs/textures");
-	// std::cout << mesh << std::endl;
 
 	// SKY BOX
 	obj::shader skyboxShader("srcs/skybox/skybox.vs", "srcs/skybox/skybox.fs", nullptr);
 
 	// COORDINATES
 	float skyboxVertices[] = {
-		-1.0f,	-1.0f,	 1.0f,//        7--------6
-		 1.0f,	-1.0f,	 1.0f,//       /|       /|
-		 1.0f,	-1.0f,	-1.0f,//      4--------5 |
-		-1.0f,	-1.0f,	-1.0f,//      | |      | |
-		-1.0f,	 1.0f,	 1.0f,//      | 3------|-2
-		 1.0f,	 1.0f,	 1.0f,//      |/       |/
-		 1.0f,	 1.0f,	-1.0f,//      0--------1
-		-1.0f,   1.0f,	-1.0f
-	};
+		-1.0f, -1.0f, 1.0f,	 //        7--------6
+		1.0f, -1.0f, 1.0f,	 //       /|       /|
+		1.0f, -1.0f, -1.0f,	 //      4--------5 |
+		-1.0f, -1.0f, -1.0f, //      | |      | |
+		-1.0f, 1.0f, 1.0f,	 //      | 3------|-2
+		1.0f, 1.0f, 1.0f,	 //      |/       |/
+		1.0f, 1.0f, -1.0f,	 //      0--------1
+		-1.0f, 1.0f, -1.0f};
 
 	// INDICES
 	unsigned int skyboxIndices[] =
-	{
-		// Right
-		1, 2, 6,
-		6, 5, 1,
-		// Left
-		0, 4, 7,
-		7, 3, 0,
-		// Top
-		4, 5, 6,
-		6, 7, 4,
-		// Bottom
-		0, 3, 2,
-		2, 1, 0,
-		// Back
-		0, 1, 5,
-		5, 4, 0,
-		// Front
-		3, 7, 6,
-		6, 2, 3
-	};
+		{
+			// Right
+			1, 2, 6,
+			6, 5, 1,
+			// Left
+			0, 4, 7,
+			7, 3, 0,
+			// Top
+			4, 5, 6,
+			6, 7, 4,
+			// Bottom
+			0, 3, 2,
+			2, 1, 0,
+			// Back
+			0, 1, 5,
+			5, 4, 0,
+			// Front
+			3, 7, 6,
+			6, 2, 3};
 
 	// // SKY BOX IMAGES
 	std::vector<std::string> files = {
@@ -138,8 +135,7 @@ int main(int ac, char **av)
 		"srcs/skybox/top.jpg",
 		"srcs/skybox/bottom.jpg",
 		"srcs/skybox/front.jpg",
-		"srcs/skybox/back.jpg"
-	};
+		"srcs/skybox/back.jpg"};
 
 	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
 	glGenVertexArrays(1, &skyboxVAO);
@@ -150,7 +146,7 @@ int main(int ac, char **av)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, skyboxEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(skyboxIndices), &skyboxIndices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -171,12 +167,11 @@ int main(int ac, char **av)
 		std::cout << files[i] << std::endl;
 
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(files[i].c_str(), &width, &height, &nrChannels, 0);
+		unsigned char *data = stbi_load(files[i].c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
 			stbi_set_flip_vertically_on_load(false);
-			glTexImage2D
-			(
+			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 				0,
 				GL_RGB,
@@ -185,8 +180,7 @@ int main(int ac, char **av)
 				0,
 				GL_RGB,
 				GL_UNSIGNED_BYTE,
-				data
-			);
+				data);
 			stbi_image_free(data);
 		}
 		else
@@ -212,7 +206,7 @@ int main(int ac, char **av)
 
 		// clear color buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		ourShader.use();
 		// pass projection matrix to shader (note that in this case it could change every frame)
 		math::mat4 projection = math::perspective(math::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -246,10 +240,10 @@ int main(int ac, char **av)
 
 			skyboxShader.use();
 			view[3][0] = 0;
-			view[3][1] = 0;// a.x a.y a.z 0
-			view[3][2] = 0;// b.x b.y b.z 0
-			view[3][3] = 0;// c.x c.y c.z 0
-			view[0][3] = 0;// 0   0   0   0
+			view[3][1] = 0; // a.x a.y a.z 0
+			view[3][2] = 0; // b.x b.y b.z 0
+			view[3][3] = 0; // c.x c.y c.z 0
+			view[0][3] = 0; // 0   0   0   0
 			view[1][3] = 0;
 			view[2][3] = 0;
 			glUniformMatrix4fv(glGetUniformLocation(skyboxShader.ID, "view"), 1, GL_FALSE, &view[0][0]);
@@ -258,7 +252,7 @@ int main(int ac, char **av)
 			skyboxShader.use();
 			skyboxShader.setMat4("projection", projection);
 			skyboxShader.setMat4("view", view);
-		
+
 			glBindVertexArray(skyboxVAO);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
@@ -314,14 +308,12 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
 	{
-		std::cout << "UP mixValue: " << mixValue << std::endl;
 		mixValue += 0.01f;
-		if(mixValue >= 1.0f)
+		if (mixValue >= 1.0f)
 			mixValue = 1.0f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
 	{
-		std::cout << "Down mixValue: " << mixValue << std::endl;
 		mixValue -= 0.01f;
 		if (mixValue <= 0.0f)
 			mixValue = 0.0f;
@@ -329,14 +321,12 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 
 	if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
 	{
-		std::cout << "UP mixColor: " << mixColor << std::endl;
 		mixColor += 0.01f;
-		if(mixColor >= 1.0f)
+		if (mixColor >= 1.0f)
 			mixColor = 1.0f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
 	{
-		std::cout << "Down mixColor: " << mixColor << std::endl;
 		mixColor -= 0.01f;
 		if (mixColor <= 0.0f)
 			mixColor = 0.0f;
@@ -350,7 +340,6 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 	{
 		r_pressed = false;
 		rotate = !rotate;
-		std::cout << "rotate: " << rotate << std::endl;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
@@ -361,7 +350,6 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 	{
 		b_pressed = false;
 		skybox_active = !skybox_active;
-		std::cout << "rotate: " << rotate << std::endl;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
@@ -383,14 +371,14 @@ void processInput(GLFWwindow *window, math::mat4 &model)
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
 	(void)window;
 	glViewport(0, 0, width, height);
 }
 
 // glfw: whenever the mouse moves, this callback is called
-void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+void mouse_callback(GLFWwindow *window, double xposIn, double yposIn)
 {
 	(void)window;
 	float xpos = static_cast<float>(xposIn);
@@ -409,11 +397,11 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset*0.1, yoffset* 0.1, true);
+	camera.ProcessMouseMovement(xoffset * 0.1, yoffset * 0.1, true);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
 	(void)window;
 	(void)xoffset;
